@@ -65,10 +65,25 @@ const Booking = () => {
         });
     };
 
+    const [closedSlots, setClosedSlots] = useState([]);
+
+    const handleCloseSlot = (slotId) => {
+        if (window.confirm('Are you sure you want to close this slot?')) {
+            setClosedSlots([...closedSlots, slotId]);
+        }
+    };
+
+    const handleReopenSlot = (slotId) => {
+        if (window.confirm('Do you want to reopen this slot?')) {
+            setClosedSlots(closedSlots.filter(id => id !== slotId));
+        }
+    };
+
     const getSlotStatus = (slot) => {
+        if (closedSlots.includes(slot.id)) return 'Closed';
+        if (isSlotFull(slot)) return 'Full - Booking Closed';
         const remainingCapacity = slot.capacity - slot.participants.length;
         if (slot.time < currentTime) return 'Expired';
-        if (remainingCapacity === 0) return 'Full';
         return `${remainingCapacity} spots left`;
     };
 
@@ -82,28 +97,43 @@ const Booking = () => {
     const [selectedParticipant, setSelectedParticipant] = useState(null);
     const [showContactInfo, setShowContactInfo] = useState(false);
 
-    // Update handleBookSlot to include more participant info
+    // Update handleBookSlot to automatically close full slots
     const handleBookSlot = (slot) => {
-        if (slot.time < currentTime || slot.participants.length >= slot.capacity) {
+        if (slot.time < currentTime ||
+            slot.participants.length >= slot.capacity ||
+            closedSlots.includes(slot.id)) {
             return;
         }
+
         setSelectedSlot(slot);
         const updatedSlots = slots.map(s => {
             if (s.id === slot.id) {
+                const updatedParticipants = [...s.participants, {
+                    id: 'current-user',
+                    name: 'You',
+                    contact: '+91 99999-XXXXX',
+                    rating: 4.0,
+                    trips: 5
+                }];
+
+                // Automatically close slot if it becomes full
+                if (updatedParticipants.length >= s.capacity) {
+                    setClosedSlots(prev => [...prev, s.id]);
+                }
+
                 return {
                     ...s,
-                    participants: [...s.participants, {
-                        id: 'current-user',
-                        name: 'You',
-                        contact: '+91 99999-XXXXX',
-                        rating: 4.0,
-                        trips: 5
-                    }]
+                    participants: updatedParticipants
                 };
             }
             return s;
         });
         setSlots(updatedSlots);
+    };
+
+    // Function to check if slot is full
+    const isSlotFull = (slot) => {
+        return slot.participants.length >= slot.capacity;
     };
 
     const handleShowContact = (participant) => {
@@ -127,11 +157,16 @@ const Booking = () => {
                     <div
                         key={slot.id}
                         className={`slot-card ${slot.isActive ? 'active' : ''} 
-                            ${slot.time < currentTime ? 'expired' : ''}`}
+                            ${slot.time < currentTime ? 'expired' : ''}
+                            ${closedSlots.includes(slot.id) || isSlotFull(slot) ? 'closed' : ''}`}
                         style={{ '--card-color': modeConfig[mode]?.color }}
                     >
                         <div className="slot-time">{formatTime(slot.time)}</div>
-                        <div className="slot-status">{getSlotStatus(slot)}</div>
+                        <div className="slot-status">
+                            <span className={isSlotFull(slot) ? 'full-status' : ''}>
+                                {getSlotStatus(slot)}
+                            </span>
+                        </div>
                         <div className="slot-participants">
                             {slot.participants.map((participant, index) => (
                                 <span
@@ -144,14 +179,37 @@ const Booking = () => {
                                 </span>
                             ))}
                         </div>
-                        <button
-                            className="book-button"
-                            disabled={slot.time < currentTime ||
-                                slot.participants.length >= slot.capacity}
-                            onClick={() => handleBookSlot(slot)}
-                        >
-                            Book Now
-                        </button>
+                        <div className="slot-actions">
+                            <button
+                                className="book-button"
+                                disabled={
+                                    slot.time < currentTime ||
+                                    isSlotFull(slot) ||
+                                    closedSlots.includes(slot.id)
+                                }
+                                onClick={() => handleBookSlot(slot)}
+                            >
+                                {isSlotFull(slot) ? 'Slot Full' : 'Book Now'}
+                            </button>
+                            {!isSlotFull(slot) && !closedSlots.includes(slot.id) && (
+                                <button
+                                    className="close-slot-button"
+                                    onClick={() => handleCloseSlot(slot.id)}
+                                    disabled={slot.time < currentTime}
+                                >
+                                    Close Slot
+                                </button>
+                            )}
+                            {(isSlotFull(slot) || closedSlots.includes(slot.id)) && (
+                                <button
+                                    className="reopen-slot-button"
+                                    onClick={() => handleReopenSlot(slot.id)}
+                                    disabled={slot.time < currentTime}
+                                >
+                                    Reopen Slot
+                                </button>
+                            )}
+                        </div>
                     </div>
                 ))}
             </div>
