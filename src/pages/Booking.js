@@ -1,6 +1,66 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
+const MyBookingsSection = ({ currentBooking, mode, modeConfig, onCancel, onNewBooking }) => {
+    if (!currentBooking) {
+        return (
+            <div className="my-bookings-empty">
+                <h2>My Bookings</h2>
+                <div className="empty-state">
+                    <span className="empty-icon">📅</span>
+                    <p>You don't have any active bookings</p>
+                    <button
+                        className="new-booking-button"
+                        onClick={onNewBooking}
+                    >
+                        Book a Slot
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div className="my-bookings-section">
+            <h2>My Current Booking</h2>
+            <div className="current-booking-card">
+                <div className="booking-header">
+                    <span className="mode-icon">{modeConfig[mode]?.icon}</span>
+                    <span className="mode-name">{mode}</span>
+                </div>
+                <div className="booking-info">
+                    <div className="info-row">
+                        <span className="label">Time:</span>
+                        <span className="value">{currentBooking.time}</span>
+                    </div>
+                    <div className="info-row">
+                        <span className="label">Booking ID:</span>
+                        <span className="value">#{currentBooking.id}</span>
+                    </div>
+                    <div className="info-row">
+                        <span className="label">Other Participants:</span>
+                        <span className="value">{currentBooking.otherParticipants}</span>
+                    </div>
+                </div>
+                <div className="booking-actions">
+                    <button
+                        className="cancel-booking-button"
+                        onClick={() => onCancel(currentBooking)}
+                    >
+                        Cancel Booking
+                    </button>
+                    <button
+                        className="new-booking-button"
+                        onClick={onNewBooking}
+                    >
+                        Book Another Slot
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 const Booking = () => {
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
@@ -9,6 +69,8 @@ const Booking = () => {
     const [currentTime, setCurrentTime] = useState(new Date());
     const [slots, setSlots] = useState([]);
     const [selectedSlot, setSelectedSlot] = useState(null);
+    const [userHasBooked, setUserHasBooked] = useState(false);
+    const [bookingError, setBookingError] = useState(null);
 
     // Mode configurations
     const modeConfig = {
@@ -97,38 +159,100 @@ const Booking = () => {
     const [selectedParticipant, setSelectedParticipant] = useState(null);
     const [showContactInfo, setShowContactInfo] = useState(false);
 
-    // Update handleBookSlot to automatically close full slots
+    // Add new state for booking status
+    const [bookingStatus, setBookingStatus] = useState({
+        status: null, // 'success', 'pending', or 'error'
+        message: ''
+    });
+
+    // Update handleBookSlot function
     const handleBookSlot = (slot) => {
+        if (userHasBooked) {
+            setBookingError({
+                type: 'error',
+                message: "You can only book one slot at a time. Please cancel your existing booking to book a new slot."
+            });
+            return;
+        }
+
         if (slot.time < currentTime ||
             slot.participants.length >= slot.capacity ||
             closedSlots.includes(slot.id)) {
             return;
         }
 
-        setSelectedSlot(slot);
-        const updatedSlots = slots.map(s => {
-            if (s.id === slot.id) {
-                const updatedParticipants = [...s.participants, {
-                    id: 'current-user',
-                    name: 'You',
-                    contact: '+91 99999-XXXXX',
-                    rating: 4.0,
-                    trips: 5
-                }];
-
-                // Automatically close slot if it becomes full
-                if (updatedParticipants.length >= s.capacity) {
-                    setClosedSlots(prev => [...prev, s.id]);
-                }
-
-                return {
-                    ...s,
-                    participants: updatedParticipants
-                };
-            }
-            return s;
+        // Set pending status
+        setBookingStatus({
+            status: 'pending',
+            message: 'Processing your booking...'
         });
-        setSlots(updatedSlots);
+
+        // Simulate a brief loading state
+        setTimeout(() => {
+            const updatedSlots = slots.map(s => {
+                if (s.id === slot.id) {
+                    const updatedParticipants = [...s.participants, {
+                        id: 'current-user',
+                        name: 'You',
+                        contact: '+91 99999-XXXXX',
+                        rating: 4.0,
+                        trips: 5
+                    }];
+
+                    if (updatedParticipants.length >= s.capacity) {
+                        setClosedSlots(prev => [...prev, s.id]);
+                    }
+
+                    return {
+                        ...s,
+                        participants: updatedParticipants
+                    };
+                }
+                return s;
+            });
+
+            setSlots(updatedSlots);
+            setUserHasBooked(true);
+            setSelectedSlot(slot);
+            setBookingError(null);
+
+            // Set success status
+            setBookingStatus({
+                status: 'success',
+                message: `Successfully booked for ${formatTime(slot.time)}`
+            });
+
+            // Clear status after 3 seconds
+            setTimeout(() => {
+                setBookingStatus({ status: null, message: '' });
+            }, 3000);
+        }, 800); // Simulate network delay
+    };
+
+    // Update the handleCancelBooking function
+    const handleCancelBooking = (slot, e) => {
+        e.stopPropagation();
+
+        // Simple confirmation instead of custom dialog
+        if (window.confirm('Are you sure you want to cancel your booking?')) {
+            const updatedSlots = slots.map(s => {
+                if (s.id === slot.id) {
+                    return {
+                        ...s,
+                        participants: s.participants.filter(p => p.id !== 'current-user')
+                    };
+                }
+                return s;
+            });
+            setSlots(updatedSlots);
+            setUserHasBooked(false);
+            setSelectedSlot(null);
+            setBookingError({
+                type: 'success',
+                message: "Your booking has been successfully cancelled."
+            });
+            setTimeout(() => setBookingError(null), 3000);
+        }
     };
 
     // Function to check if slot is full
@@ -141,123 +265,209 @@ const Booking = () => {
         setShowContactInfo(true);
     };
 
+    // Add this new state
+    const [showBookingForm, setShowBookingForm] = useState(true);
+
+    // Add this function to handle new booking requests
+    const handleNewBooking = () => {
+        setShowBookingForm(true);
+    };
+
     return (
         <div className="booking-page">
-            <div className="booking-header">
-                <span className="mode-icon">{modeConfig[mode]?.icon}</span>
-                <h1>Book your {mode} slot</h1>
-            </div>
+            <div className="booking-sections">
+                {/* My Bookings Section */}
+                <MyBookingsSection
+                    currentBooking={selectedSlot ? {
+                        id: `${selectedSlot.id}-${Date.now().toString().slice(-4)}`,
+                        time: formatTime(selectedSlot.time),
+                        otherParticipants: selectedSlot.participants.filter(p => p.id !== 'current-user').length,
+                    } : null}
+                    mode={mode}
+                    modeConfig={modeConfig}
+                    onCancel={handleCancelBooking}
+                    onNewBooking={handleNewBooking}
+                />
 
-            <div className="current-time">
-                Current Time: {formatTime(currentTime)}
-            </div>
-
-            <div className="slots-container">
-                {slots.map((slot) => (
-                    <div
-                        key={slot.id}
-                        className={`slot-card ${slot.isActive ? 'active' : ''} 
-                            ${slot.time < currentTime ? 'expired' : ''}
-                            ${closedSlots.includes(slot.id) || isSlotFull(slot) ? 'closed' : ''}`}
-                        style={{ '--card-color': modeConfig[mode]?.color }}
-                    >
-                        <div className="slot-time">{formatTime(slot.time)}</div>
-                        <div className="slot-status">
-                            <span className={isSlotFull(slot) ? 'full-status' : ''}>
-                                {getSlotStatus(slot)}
-                            </span>
+                {/* Booking Form Section */}
+                {showBookingForm && (
+                    <div className="booking-form-section">
+                        <div className="booking-header">
+                            <span className="mode-icon">{modeConfig[mode]?.icon}</span>
+                            <h1>Book your {mode} slot</h1>
                         </div>
-                        <div className="slot-participants">
-                            {slot.participants.map((participant, index) => (
-                                <span
-                                    key={index}
-                                    className="participant"
-                                    onClick={() => handleShowContact(participant)}
+
+                        <div className="current-time">
+                            Current Time: {formatTime(currentTime)}
+                        </div>
+
+                        {/* Booking Status Message */}
+                        {bookingStatus.status && (
+                            <div className={`booking-status-message ${bookingStatus.status}`}>
+                                {bookingStatus.status === 'pending' && (
+                                    <span className="loading-spinner"></span>
+                                )}
+                                {bookingStatus.message}
+                            </div>
+                        )}
+
+                        {bookingError && (
+                            <div className={`booking-error-message ${bookingError.type}`}>
+                                {bookingError.message}
+                            </div>
+                        )}
+
+                        <div className="slots-container">
+                            {slots.map((slot) => (
+                                <div
+                                    key={slot.id}
+                                    className={`slot-card ${slot.isActive ? 'active' : ''} 
+                                        ${slot.time < currentTime ? 'expired' : ''}
+                                        ${closedSlots.includes(slot.id) || isSlotFull(slot) ? 'closed' : ''}
+                                        ${selectedSlot?.id === slot.id ? 'selected' : ''}`}
+                                    style={{ '--card-color': modeConfig[mode]?.color }}
                                 >
-                                    {participant.name}
-                                    <span className="participant-info-icon">ℹ️</span>
-                                </span>
+                                    <div className="slot-time">{formatTime(slot.time)}</div>
+                                    <div className="slot-status">
+                                        <span className={isSlotFull(slot) ? 'full-status' : ''}>
+                                            {getSlotStatus(slot)}
+                                        </span>
+                                    </div>
+                                    <div className="slot-participants">
+                                        {slot.participants.map((participant, index) => (
+                                            <span
+                                                key={index}
+                                                className="participant"
+                                                onClick={() => handleShowContact(participant)}
+                                            >
+                                                {participant.name}
+                                                <span className="participant-info-icon">ℹ️</span>
+                                            </span>
+                                        ))}
+                                    </div>
+                                    <div className="slot-actions">
+                                        {slot.participants.some(p => p.id === 'current-user') ? (
+                                            <div className="cancel-booking-container">
+                                                <button
+                                                    className="cancel-button"
+                                                    onClick={(e) => handleCancelBooking(slot, e)}
+                                                    data-tooltip="Cancel your booking for this time slot"
+                                                >
+                                                    <span className="cancel-icon">✕</span>
+                                                    <span className="cancel-text">Cancel Booking</span>
+                                                    <span className="cancel-time">{formatTime(slot.time)}</span>
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <button
+                                                className="book-button"
+                                                disabled={
+                                                    slot.time < currentTime ||
+                                                    isSlotFull(slot) ||
+                                                    closedSlots.includes(slot.id) ||
+                                                    userHasBooked
+                                                }
+                                                onClick={() => handleBookSlot(slot)}
+                                                data-tooltip={
+                                                    userHasBooked ? "You already have a booking" :
+                                                        isSlotFull(slot) ? "This slot is full" :
+                                                            "Click to book this time slot"
+                                                }
+                                            >
+                                                {userHasBooked ? 'Already Booked' : isSlotFull(slot) ? 'Slot Full' : 'Book Now'}
+                                            </button>
+                                        )}
+                                        {!isSlotFull(slot) && !closedSlots.includes(slot.id) && (
+                                            <button
+                                                className="close-slot-button"
+                                                onClick={() => handleCloseSlot(slot.id)}
+                                                disabled={slot.time < currentTime}
+                                                data-tooltip="Close this slot for bookings"
+                                            >
+                                                Close Slot
+                                            </button>
+                                        )}
+                                        {(isSlotFull(slot) || closedSlots.includes(slot.id)) && (
+                                            <button
+                                                className="reopen-slot-button"
+                                                onClick={() => handleReopenSlot(slot.id)}
+                                                disabled={slot.time < currentTime}
+                                                data-tooltip="Reopen this slot for bookings"
+                                            >
+                                                Reopen Slot
+                                            </button>
+                                        )}
+                                    </div>
+                                </div>
                             ))}
                         </div>
-                        <div className="slot-actions">
-                            <button
-                                className="book-button"
-                                disabled={
-                                    slot.time < currentTime ||
-                                    isSlotFull(slot) ||
-                                    closedSlots.includes(slot.id)
-                                }
-                                onClick={() => handleBookSlot(slot)}
-                            >
-                                {isSlotFull(slot) ? 'Slot Full' : 'Book Now'}
-                            </button>
-                            {!isSlotFull(slot) && !closedSlots.includes(slot.id) && (
-                                <button
-                                    className="close-slot-button"
-                                    onClick={() => handleCloseSlot(slot.id)}
-                                    disabled={slot.time < currentTime}
-                                >
-                                    Close Slot
-                                </button>
-                            )}
-                            {(isSlotFull(slot) || closedSlots.includes(slot.id)) && (
-                                <button
-                                    className="reopen-slot-button"
-                                    onClick={() => handleReopenSlot(slot.id)}
-                                    disabled={slot.time < currentTime}
-                                >
-                                    Reopen Slot
-                                </button>
-                            )}
-                        </div>
+
+                        {/* Contact Information Modal */}
+                        {showContactInfo && selectedParticipant && (
+                            <div className="contact-modal-overlay" onClick={() => setShowContactInfo(false)}>
+                                <div className="contact-modal" onClick={e => e.stopPropagation()}>
+                                    <button className="close-modal" onClick={() => setShowContactInfo(false)}>×</button>
+                                    <div className="contact-header">
+                                        <span className="contact-avatar">
+                                            {selectedParticipant.name.charAt(0)}
+                                        </span>
+                                        <h3>{selectedParticipant.name}</h3>
+                                    </div>
+                                    <div className="contact-details">
+                                        <div className="contact-info-row">
+                                            <span className="info-label">Contact:</span>
+                                            <span className="info-value">{selectedParticipant.contact}</span>
+                                        </div>
+                                        <div className="contact-info-row">
+                                            <span className="info-label">Rating:</span>
+                                            <span className="info-value">
+                                                {selectedParticipant.rating} ⭐
+                                            </span>
+                                        </div>
+                                        <div className="contact-info-row">
+                                            <span className="info-label">Total Trips:</span>
+                                            <span className="info-value">{selectedParticipant.trips}</span>
+                                        </div>
+                                    </div>
+                                    <button className="contact-action-btn">
+                                        📞 Call Participant
+                                    </button>
+                                    <button className="contact-action-btn message">
+                                        💬 Send Message
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Booking Confirmation Section */}
+                        {selectedSlot && (
+                            <div className="booking-confirmation">
+                                <div className="confirmation-content">
+                                    <h3>Booking Confirmed! 🎉</h3>
+                                    <div className="confirmation-details">
+                                        <p className="time">
+                                            <span className="label">Time:</span>
+                                            {formatTime(selectedSlot.time)}
+                                        </p>
+                                        <p className="mode">
+                                            <span className="label">Mode:</span>
+                                            {mode} {modeConfig[mode]?.icon}
+                                        </p>
+                                        <p className="participants">
+                                            <span className="label">Other Participants:</span>
+                                            {selectedSlot.participants.filter(p => p.id !== 'current-user').length}
+                                        </p>
+                                    </div>
+                                    <div className="confirmation-instructions">
+                                        <p>Please arrive 5 minutes before the scheduled time.</p>
+                                        <p>Your booking reference: #{selectedSlot.id}-{Date.now().toString().slice(-4)}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </div>
-                ))}
+                )}
             </div>
-
-            {/* Contact Information Modal */}
-            {showContactInfo && selectedParticipant && (
-                <div className="contact-modal-overlay" onClick={() => setShowContactInfo(false)}>
-                    <div className="contact-modal" onClick={e => e.stopPropagation()}>
-                        <button className="close-modal" onClick={() => setShowContactInfo(false)}>×</button>
-                        <div className="contact-header">
-                            <span className="contact-avatar">
-                                {selectedParticipant.name.charAt(0)}
-                            </span>
-                            <h3>{selectedParticipant.name}</h3>
-                        </div>
-                        <div className="contact-details">
-                            <div className="contact-info-row">
-                                <span className="info-label">Contact:</span>
-                                <span className="info-value">{selectedParticipant.contact}</span>
-                            </div>
-                            <div className="contact-info-row">
-                                <span className="info-label">Rating:</span>
-                                <span className="info-value">
-                                    {selectedParticipant.rating} ⭐
-                                </span>
-                            </div>
-                            <div className="contact-info-row">
-                                <span className="info-label">Total Trips:</span>
-                                <span className="info-value">{selectedParticipant.trips}</span>
-                            </div>
-                        </div>
-                        <button className="contact-action-btn">
-                            📞 Call Participant
-                        </button>
-                        <button className="contact-action-btn message">
-                            💬 Send Message
-                        </button>
-                    </div>
-                </div>
-            )}
-
-            {selectedSlot && (
-                <div className="booking-confirmation">
-                    <h3>Booking Confirmed!</h3>
-                    <p>Your slot is booked for {formatTime(selectedSlot.time)}</p>
-                    <p>Please arrive 5 minutes before the scheduled time.</p>
-                </div>
-            )}
         </div>
     );
 };
