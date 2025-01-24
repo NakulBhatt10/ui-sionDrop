@@ -789,6 +789,101 @@ body {
     gap: 1rem;
 }
 
+
+
+.new-booking-button {
+    padding: 12px 24px;
+    /* Add padding for size */
+    font-size: 16px;
+    /* Readable font size */
+    font-family: 'Segoe UI', sans-serif;
+    /* Match font-family with the body */
+    border: 2px solid #007BFF;
+    /* Blue border for primary button style */
+    border-radius: 6px;
+    /* Rounded corners for a modern feel */
+    background-color: #007BFF;
+    /* Primary blue background */
+    color: white;
+    /* White text for contrast */
+    cursor: pointer;
+    /* Pointer on hover */
+    margin: 5px;
+    /* Space between buttons */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Light shadow for depth */
+    transition: all 0.3s ease;
+    /* Smooth hover and click transitions */
+}
+
+.new-booking-button:hover {
+    background-color: #0056b3;
+    /* Darker blue on hover */
+    border-color: #0056b3;
+    /* Match border with hover color */
+    transform: scale(1.05);
+    /* Slight enlarge effect on hover */
+}
+
+.new-booking-button:active {
+    background-color: #004085;
+    /* Even darker blue on active */
+    border-color: #004085;
+    /* Border matches active color */
+    box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.2);
+    /* Inset shadow on click */
+    transform: scale(0.95);
+    /* Slight shrink effect on click */
+}
+
+
+.cancel-booking-button {
+    padding: 12px 24px;
+    /* Add padding for size */
+    font-size: 16px;
+    /* Readable font size */
+    font-family: 'Segoe UI', sans-serif;
+    /* Consistent font style */
+    border: 2px solid #dc3545;
+    /* Red border for cancel button */
+    border-radius: 6px;
+    /* Rounded corners */
+    background-color: #dc3545;
+    /* Red background to indicate cancel action */
+    color: white;
+    /* White text for contrast */
+    cursor: pointer;
+    /* Pointer cursor on hover */
+    margin: 5px;
+    /* Add space between buttons */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow for depth */
+    transition: all 0.3s ease;
+    /* Smooth hover and click transitions */
+}
+
+.cancel-booking-button:hover {
+    background-color: #c82333;
+    /* Darker red on hover */
+    border-color: #c82333;
+    /* Match border with hover color */
+    transform: scale(1.05);
+    /* Slight enlarge effect */
+}
+
+.cancel-booking-button:active {
+    background-color: #bd2130;
+    /* Even darker red on click */
+    border-color: #bd2130;
+    /* Border matches active color */
+    box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.2);
+    /* Inset shadow for click effect */
+    transform: scale(0.95);
+    /* Slight shrink effect */
+}
+
+
+
 .mode-icon {
     font-size: 2.5rem;
 }
@@ -850,7 +945,7 @@ body {
 
 .participant {
     background-color: var(--card-color);
-    color: white;
+    color: rgb(255, 255, 255);
     padding: 0.25rem 0.75rem;
     border-radius: 15px;
     font-size: 0.9rem;
@@ -862,7 +957,7 @@ body {
     border: none;
     border-radius: 8px;
     background-color: var(--card-color);
-    color: white;
+    color: rgb(255, 255, 255);
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -1161,6 +1256,6 @@ body {
 }
 
 .book-button:disabled {
-    background-color: #ccc;
+    background-color: #ffffff;
     cursor: not-allowed;
 }
