@@ -1,465 +1,125 @@
 /* Common button styles */
-.slot-actions button {
-    padding: 10px 16px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: 2px solid;
-    min-width: 120px;
-    position: relative;
-    overflow: hidden;
+
+.slot-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
 }
 
-/* Book Now button */
+.book-button,
+.cancel-button {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border: none;
+}
+
 .book-button {
     background-color: #4CAF50;
-    border-color: #4CAF50;
-    color: white;
+    /* Green */
+    color: rgb(9, 241, 24);
 }
 
-.book-button:hover:not(:disabled) {
+.book-button:hover {
     background-color: #45a049;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(76, 175, 80, 0.2);
-}
-
-.book-button:disabled {
-    background-color: #cccccc;
-    border-color: #bbbbbb;
-    cursor: not-allowed;
-    opacity: 0.7;
-}
-
-/* Cancel booking styles */
-.cancel-booking-container {
-    width: 100%;
-    margin: 8px 0;
 }
 
 .cancel-button {
-    width: 100%;
-    padding: 12px 16px;
-    background-color: white;
-    border: 2px solid #ff4444;
-    border-radius: 8px;
-    color: #ff4444;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
+    background-color: #f44336;
+    /* Red */
+    color: rgb(255, 0, 0);
 }
 
 .cancel-button:hover {
-    background-color: #ff4444;
-    color: white;
+    background-color: #e53935;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(255, 68, 68, 0.2);
 }
 
-.cancel-icon {
+.slot-card {
+    background: rgb(195, 232, 10);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+.slot-card:hover {
+    transform: translateY(-5px);
+}
+
+.slot-time {
     font-size: 18px;
     font-weight: bold;
+    margin-bottom: 8px;
 }
 
-.cancel-text {
-    flex-grow: 1;
-    text-align: center;
-}
-
-.cancel-time {
+.slot-status {
     font-size: 14px;
-    opacity: 0.9;
-    background-color: rgba(255, 68, 68, 0.1);
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.slot-participants {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.participant {
+    background-color: #f0f0f0;
     padding: 4px 8px;
     border-radius: 4px;
-}
-
-/* Close Slot button */
-.close-slot-button {
-    background-color: #ff9800;
-    border-color: #ff9800;
-    color: white;
-}
-
-.close-slot-button:hover:not(:disabled) {
-    background-color: #f57c00;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(255, 152, 0, 0.2);
-}
-
-/* Reopen Slot button */
-.reopen-slot-button {
-    background-color: white;
-    border-color: #2196F3;
-    color: #2196F3;
-}
-
-.reopen-slot-button:hover:not(:disabled) {
-    background-color: #2196F3;
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(33, 150, 243, 0.2);
-}
-
-/* Disabled state for all buttons */
-button:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-    transform: none !important;
-    box-shadow: none !important;
-}
-
-/* Button loading state */
-.button-loading {
-    position: relative;
-    color: transparent !important;
-}
-
-.button-loading::after {
-    content: "";
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    top: 50%;
-    left: 50%;
-    margin: -8px 0 0 -8px;
-    border: 2px solid currentColor;
-    border-right-color: transparent;
-    border-radius: 50%;
-    animation: button-loading-spinner 0.75s linear infinite;
-}
-
-@keyframes button-loading-spinner {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-/* Tooltip styles */
-.slot-actions button {
-    position: relative;
-}
-
-.slot-actions button::before {
-    content: attr(data-tooltip);
-    position: absolute;
-    bottom: -35px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 5px 10px;
-    background-color: #333;
-    color: white;
     font-size: 12px;
-    border-radius: 4px;
-    white-space: nowrap;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
 }
 
-.slot-actions button:hover::before {
-    opacity: 1;
-    visibility: visible;
-}
-
-/* Success animation */
-@keyframes successPulse {
-    0% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.05);
-    }
-
-    100% {
-        transform: scale(1);
-    }
-}
-
-.booking-success {
-    animation: successPulse 0.5s ease;
-}
-
-/* Error/Success message styles */
-.booking-error-message {
+.booking-status {
     margin: 16px;
     padding: 16px;
     border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    text-align: center;
     font-weight: 500;
-    animation: slideIn 0.3s ease;
 }
 
-.booking-error-message.success {
+.booking-status.success {
     background-color: #e8f5e9;
     color: #2e7d32;
-    border: 1px solid #a5d6a7;
 }
 
-.booking-error-message.error {
-    background-color: #ffebee;
+.booking-status.error {
+    background-color: #f10024;
     color: #c62828;
-    border: 1px solid #ef9a9a;
 }
 
-@keyframes slideIn {
-    from {
-        transform: translateY(-20px);
-        opacity: 0;
-    }
-
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+.booking-status.info {
+    background-color: #e3f2fd;
+    color: #1976d2;
 }
 
-/* Update the tooltip for cancel button */
-.cancel-button[data-tooltip]::before {
-    z-index: 1000;
-    background-color: #333;
-    color: white;
-    font-size: 12px;
-    padding: 6px 10px;
-    border-radius: 4px;
-    white-space: nowrap;
-}
-
-/* Selected slot styling */
-.slot-card.selected {
-    border: 2px solid var(--card-color);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transform: translateY(-2px);
-}
-
-/* Booking status message */
-.booking-status-message {
-    margin: 16px;
-    padding: 16px;
-    border-radius: 8px;
+.slots-container {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    font-weight: 500;
-    animation: slideIn 0.3s ease;
+    overflow-x: auto;
+    padding: 20px;
+    gap: 16px;
 }
 
-.booking-status-message.pending {
-    background-color: #fff3e0;
-    color: #e65100;
-    border: 1px solid #ffe0b2;
-}
-
-.booking-status-message.success {
-    background-color: #e8f5e9;
-    color: #2e7d32;
-    border: 1px solid #a5d6a7;
-}
-
-/* Loading spinner */
-.loading-spinner {
-    width: 20px;
-    height: 20px;
-    border: 2px solid currentColor;
-    border-right-color: transparent;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-/* Booking confirmation styling */
-.booking-confirmation {
-    margin: 24px auto;
-    max-width: 600px;
+.slot-card {
     background: white;
     border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    animation: slideUp 0.5s ease;
-}
-
-.confirmation-content {
-    padding: 24px;
-}
-
-.confirmation-content h3 {
-    color: #2e7d32;
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 24px;
-}
-
-.confirmation-details {
-    background-color: #f5f5f5;
-    padding: 16px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-}
-
-.confirmation-details p {
-    margin: 8px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.confirmation-details .label {
-    font-weight: 600;
-    color: #666;
-}
-
-.confirmation-instructions {
-    text-align: center;
-    color: #666;
-}
-
-.confirmation-instructions p {
-    margin: 8px 0;
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* My Bookings Section Styles */
-.booking-sections {
-    display: grid;
-    grid-template-columns: 300px 1fr;
-    gap: 24px;
-    padding: 20px;
-}
-
-.my-bookings-section {
-    background: white;
-    border-radius: 12px;
-    padding: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.my-bookings-section h2 {
-    color: #333;
-    margin-bottom: 20px;
-    font-size: 1.5rem;
-}
-
-.current-booking-card {
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
     padding: 16px;
-}
-
-.booking-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 16px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid #eee;
-}
-
-.mode-icon {
-    font-size: 24px;
-}
-
-.mode-name {
-    font-size: 18px;
-    font-weight: 600;
-    color: #333;
-    text-transform: capitalize;
-}
-
-.booking-info {
-    margin-bottom: 20px;
-}
-
-.info-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-    padding: 8px 0;
-}
-
-.info-row .label {
-    color: #666;
-    font-weight: 500;
-}
-
-.info-row .value {
-    color: #333;
-    font-weight: 600;
-}
-
-.booking-actions {
+    min-width: 200px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    align-items: center;
+    justify-content: space-between;
+    transition: transform 0.3s ease;
 }
 
-.my-bookings-empty {
-    background: white;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.empty-state {
-    text-align: center;
-    padding: 40px 20px;
-}
-
-.empty-icon {
-    font-size: 48px;
-    margin-bottom: 16px;
-    display: block;
-}
-
-.new-booking-button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 6px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 16px;
-}
-
-.new-booking-button:hover {
-    background-color: #45a049;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(76, 175, 80, 0.2);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .booking-sections {
-        grid-template-columns: 1fr;
-    }
-
-    .my-bookings-section {
-        order: -1;
-    }
+.slot-card:hover {
+    transform: translateY(-5px);
 }

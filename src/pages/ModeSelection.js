@@ -1,7 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const ModeSelection = () => {
+    const navigate = useNavigate();
+
     const modes = [
         {
             id: 1,
@@ -26,15 +28,18 @@ const ModeSelection = () => {
         }
     ];
 
+    const handleModeSelect = (mode) => {
+        navigate(`/booking?mode=${mode.name.toLowerCase()}`);
+    };
+
     return (
         <div className="mode-selection-page">
             <h1 className="mode-selection-title">Choose Your Travel Mode</h1>
             <div className="mode-cards">
                 {modes.map((mode) => (
-                    <Link
-                        to={`/booking?mode=${mode.name.toLowerCase()}`}
-                        className="mode-card"
+                    <div
                         key={mode.id}
+                        className="mode-card"
                         style={{ '--card-color': mode.color }}
                     >
                         <div className="mode-icon-wrapper">
@@ -42,8 +47,13 @@ const ModeSelection = () => {
                         </div>
                         <h2 className="mode-name">{mode.name}</h2>
                         <p className="mode-description">{mode.description}</p>
-                        <button className="select-mode-btn">Select</button>
-                    </Link>
+                        <button
+                            className="select-mode-btn"
+                            onClick={() => handleModeSelect(mode)}
+                        >
+                            Select
+                        </button>
+                    </div>
                 ))}
             </div>
         </div>
