@@ -1,5 +1,39 @@
 /* Common button styles */
 
+.booking-page {
+    padding: 20px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.slots-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+}
+
+.slot-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    width: 100%;
+    max-width: 300px;
+    transition: transform 0.3s ease;
+}
+
+.slot-card:hover {
+    transform: translateY(-5px);
+}
+
+@media (max-width: 768px) {
+    .slot-card {
+        max-width: 100%;
+    }
+}
+
+
 .slot-actions {
     display: flex;
     gap: 10px;
