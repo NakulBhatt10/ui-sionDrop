@@ -1,69 +1,61 @@
-/* sionDrop/src/pages/Auth.css */
-
+/* sionDrop/src/styles/Auth.css */
 .auth-container {
     max-width: 400px;
     margin: 50px auto;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    background-color: white;
-    text-align: center;
-}
-
-.auth-container form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-@media (max-width: 480px) {
-    .auth-container {
-        padding: 10px;
-    }
-}
-
-
-
-
-.auth-container {
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: #1a1a2e;
+    color: white;
     text-align: center;
 }
 
 .auth-container h2 {
     margin-bottom: 20px;
+    color: #ffd700;
+    /* Yellow */
 }
 
 .auth-container form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
 }
 
 .auth-container input {
-    padding: 10px;
-    border-radius: 5px;
+    padding: 12px;
+    border-radius: 8px;
     border: 1px solid #ccc;
+    background-color: #0f3460;
+    color: white;
 }
 
 .auth-container button {
-    padding: 10px;
-    border-radius: 5px;
+    padding: 12px;
+    border-radius: 8px;
     border: none;
-    background-color: #4CAF50;
-    color: white;
+    background-color: #ffd700;
+    /* Yellow */
+    color: #1a1a2e;
+    font-weight: bold;
     cursor: pointer;
 }
 
 .auth-container button:hover {
-    background-color: #45a049;
+    background-color: #e6c200;
+    /* Darker Yellow */
 }
 
 .auth-container p {
     margin-top: 20px;
+}
+
+.auth-container a {
+    color: #ffd700;
+    /* Yellow */
+    text-decoration: none;
+}
+
+.auth-container a:hover {
+    text-decoration: underline;
 }

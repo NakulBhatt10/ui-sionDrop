@@ -1,11 +1,11 @@
 // sionDrop/src/pages/Login.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Auth.css'; // Use the same CSS file for styling
+import '../styles/Auth.css';
 
 const Login = () => {
     const navigate = useNavigate();
-    const [formData, setFormData] = useState({ email: '', password: '' });
+    const [formData, setFormData] = useState({ username: '', password: '' });
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -13,20 +13,19 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Handle login logic here
         console.log('User logged in:', formData);
-        navigate('/'); // Redirect to home after login
+        navigate('/');
     };
 
     return (
         <div className="auth-container">
-            <h2>Log In</h2>
+            <h2>Welcome Back!</h2>
             <form onSubmit={handleSubmit}>
                 <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    value={formData.email}
+                    type="text"
+                    name="username"
+                    placeholder="Username"
+                    value={formData.username}
                     onChange={handleChange}
                     required
                 />
@@ -38,10 +37,10 @@ const Login = () => {
                     onChange={handleChange}
                     required
                 />
-                <button type="submit">Log In</button>
+                <button type="submit">Login</button>
             </form>
             <p>
-                Don't have an account? <a href="/signup">Sign Up</a>
+                Don't have an account? <a href="/signup">Create New Account</a>
             </p>
         </div>
     );

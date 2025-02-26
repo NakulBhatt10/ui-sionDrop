@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import RouteMap from '../components/RouteMap';
-import LoginSignupModal from '../components/LoginSignupModal'; // Correct path
 import '../styles/Booking.css';
+import '../pages/ContactUs';
 
 const Booking = () => {
     const navigate = useNavigate();
@@ -18,7 +18,6 @@ const Booking = () => {
         message: ''
     });
     const [cancellationCount, setCancellationCount] = useState(0);
-    const [isModalOpen, setIsModalOpen] = useState(false); // State for modal
 
     // Mode configurations
     const modeConfig = {
@@ -76,7 +75,7 @@ const Booking = () => {
 
     const handleBookSlot = (slot) => {
         if (!userHasBooked) {
-            setIsModalOpen(true); // Open modal if not booked
+            navigate('/login'); // Redirect to login if not booked
             return;
         }
 
@@ -212,8 +211,6 @@ const Booking = () => {
                     </div>
                 ))}
             </div>
-
-            <LoginSignupModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
         </div>
     );
 };

@@ -7,9 +7,10 @@ import { BookingProvider } from './context/BookingContext';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import Home from './pages/Home';
-import Auth from './pages/Auth';
 import ModeSelection from './pages/ModeSelection';
 import Booking from './pages/Booking';
+import Signup from './pages/Signup';
+import Login from './pages/Login';
 
 function App() {
     return (
@@ -20,9 +21,10 @@ function App() {
                     <main className="main-content">
                         <Routes>
                             <Route path="/" element={<Home />} />
-                            <Route path="/auth" element={<Auth />} />
                             <Route path="/mode-selection" element={<ModeSelection />} />
                             <Route path="/booking" element={<Booking />} />
+                            <Route path="/signup" element={<Signup />} />
+                            <Route path="/login" element={<Login />} />
                         </Routes>
                     </main>
                     <Footer />
@@ -32,4 +34,4 @@ function App() {
     );
 }
 
-export default App; 
+export default App;
