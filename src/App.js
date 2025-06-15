@@ -10,6 +10,12 @@ import Auth from './pages/Auth';
 import ModeSelection from './pages/ModeSelection';
 import Booking from './pages/Booking';
 
+// Newly added pages
+import About from './pages/About';
+import Contact from './pages/Contact';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService';
+
 const AppContent = () => {
     const location = useLocation();
     const isAuthPage = location.pathname === '/auth';
@@ -23,6 +29,12 @@ const AppContent = () => {
                     <Route path="/auth" element={<Auth />} />
                     <Route path="/mode-selection" element={<ModeSelection />} />
                     <Route path="/booking" element={<Booking />} />
+
+                    {/* Footer link routes */}
+                    <Route path="/about" element={<About />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/privacy" element={<PrivacyPolicy />} />
+                    <Route path="/terms" element={<TermsOfService />} />
                 </Routes>
             </main>
             {!isAuthPage && <Footer />}
@@ -38,4 +50,4 @@ function App() {
     );
 }
 
-export default App; 
+export default App;

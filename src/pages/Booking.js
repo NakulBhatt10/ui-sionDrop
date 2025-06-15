@@ -9,12 +9,6 @@ const MyBookingsSection = ({ currentBooking, mode, modeConfig, onCancel, onNewBo
                 <div className="empty-state">
                     <span className="empty-icon">📅</span>
                     <p>You don't have any active bookings</p>
-                    <button
-                        className="new-booking-button"
-                        onClick={onNewBooking}
-                    >
-                        Book a Slot
-                    </button>
                 </div>
             </div>
         );
@@ -45,7 +39,7 @@ const MyBookingsSection = ({ currentBooking, mode, modeConfig, onCancel, onNewBo
                 <div className="booking-actions">
                     <button
                         className="cancel-booking-button"
-                        onClick={(e) => onCancel(currentBooking, e)} // ✅ FIX: pass event here
+                        onClick={(e) => onCancel(currentBooking, e)}
                     >
                         Cancel Booking
                     </button>

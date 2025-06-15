@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { loginUser, registerUser } from '../services/api'; // ✅ added import
 
 const Auth = () => {
     const [isLogin, setIsLogin] = useState(true);
@@ -50,10 +51,37 @@ const Auth = () => {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (validateForm()) {
-            console.log('Form submitted:', formData);
+        if (!validateForm()) return;
+
+        try {
+            let response;
+            if (isLogin) {
+                response = await loginUser({
+                    email: formData.email,
+                    password: formData.password
+                });
+            } else {
+                response = await registerUser({
+                    name: formData.name,
+                    email: formData.email,
+                    password: formData.password,
+                    confirmPassword: formData.confirmPassword
+                });
+            }
+
+            console.log('Success:', response.data);
+
+            if (response.data.token) {
+                localStorage.setItem('token', response.data.token);
+            }
+
+            alert(isLogin ? 'Logged in successfully!' : 'Signed up successfully!');
+            // Optionally navigate to another page here
+        } catch (err) {
+            console.error('Auth failed:', err.response?.data || err.message);
+            alert(err.response?.data?.message || 'Authentication failed');
         }
     };
 
@@ -163,4 +191,4 @@ const Auth = () => {
     );
 };
 
-export default Auth; 
+export default Auth;
