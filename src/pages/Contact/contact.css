@@ -1,0 +1,115 @@
+:root {
+    --primary: #FFD100;
+    --secondary: #000000;
+    --white: #FFFFFF;
+    --gray: #F5F5F5;
+    --error: #ff4d4f;
+}
+
+/* Reset any body margin (just in case) */
+body {
+    margin: 0
+}
+
+/* Page wrapper fills viewport height */
+.contact-page {
+    min-height: calc(100vh - 70px);
+    /* minus navbar height */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Content section */
+.contact-body {
+    flex: 1;
+    /* pushes footer to bottom */
+    padding: 3rem 2rem;
+    background: var(--white);
+    box-sizing: border-box;
+}
+
+.contact-body h1 {
+    font-size: 2.4rem;
+    color: var(--secondary);
+    margin-bottom: 1.4rem;
+}
+
+.contact-body p {
+    color: #555;
+    margin-bottom: .9rem;
+    line-height: 1.6;
+}
+
+.contact-info {
+    margin-bottom: 2rem;
+    line-height: 1.7;
+}
+
+.contact-info span {
+    display: block;
+    font-weight: 600;
+    color: var(--secondary);
+}
+
+.contact-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+.contact-form input,
+.contact-form textarea {
+    flex: 1 1 280px;
+    padding: .7rem 1rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.contact-form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.contact-form button {
+    padding: .8rem 1.6rem;
+    background: var(--primary);
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--secondary);
+    transition: background .25s, transform .25s;
+}
+
+.contact-form button:hover {
+    background: #FFE145;
+    transform: translateY(-2px);
+}
+
+.contact-form button:active {
+    background: #E5BC00;
+    transform: translateY(0);
+}
+
+/* Mobile tweaks */
+@media(max-width:600px) {
+    .contact-body {
+        padding: 2rem 1rem
+    }
+
+    .contact-body h1 {
+        font-size: 2rem
+    }
+
+    .contact-form {
+        flex-direction: column
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+        width: 100%
+    }
+}

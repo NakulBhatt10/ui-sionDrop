@@ -1,0 +1,122 @@
+:root {
+    --primary: #FFD100;
+    --secondary: #000000;
+    --white: #FFFFFF;
+    --gray: #F5F5F5;
+    --yellow-light: #FFE145;
+    --yellow-dark: #E5BC00;
+}
+
+.home-container {
+    min-height: calc(100vh - 70px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.2) 100%), url('/src/Asset/background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    animation: fadeIn 1.2s ease-out;
+}
+
+.hero-section {
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+    padding-top: 2rem;
+}
+
+.tagline {
+    font-size: 3.8rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 2rem;
+    color: var(--primary);
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+.tagline .highlight {
+    color: var(--white);
+    display: block;
+    margin-top: 1rem;
+    min-height: 80px;
+    font-weight: 600;
+}
+
+.find-ride-btn {
+    background-color: var(--primary);
+    color: var(--secondary);
+    padding: 1.1rem 2.6rem;
+    border-radius: 60px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 2.2rem;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.find-ride-btn:hover {
+    background-color: var(--yellow-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.find-ride-btn:active {
+    background-color: var(--yellow-dark);
+    transform: translateY(0);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .home-container {
+        padding: 3rem 1.5rem;
+    }
+
+    .tagline {
+        font-size: 2.8rem;
+    }
+
+    .find-ride-btn {
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .home-container {
+        padding: 2rem 1rem;
+    }
+
+    .tagline {
+        font-size: 2.2rem;
+    }
+
+    .tagline .highlight {
+        min-height: 60px;
+    }
+
+    .find-ride-btn {
+        padding: 0.9rem 1.8rem;
+        font-size: 1rem;
+        width: 100%;
+        max-width: 280px;
+    }
+}

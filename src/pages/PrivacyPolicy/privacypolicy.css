@@ -1,0 +1,94 @@
+:root {
+    --primary: #FFD100;
+    --secondary: #000000;
+    --white: #FFFFFF;
+    --gray: #F5F5F5;
+}
+
+.privacy-page {
+    background: var(--gray);
+    min-height: calc(100vh - 70px);
+    padding: 4rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.privacy-container {
+    width: 100%;
+    max-width: 900px;
+    background: var(--white);
+    border-radius: 16px;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, .07);
+    padding: 3rem;
+    animation: fadeIn .7s ease;
+}
+
+.privacy-container h1 {
+    font-size: 2.5rem;
+    color: var(--secondary);
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.privacy-section {
+    margin-bottom: 2.4rem;
+}
+
+.privacy-section h2 {
+    font-size: 1.6rem;
+    color: var(--secondary);
+    margin-bottom: .8rem;
+}
+
+.privacy-section p,
+.privacy-section li {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #555;
+}
+
+.privacy-section ul {
+    padding-left: 1.2rem;
+    list-style: disc;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px)
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0)
+    }
+}
+
+@media(max-width:768px) {
+    .privacy-page {
+        padding: 3rem 1.5rem
+    }
+
+    .privacy-container {
+        padding: 2.2rem
+    }
+
+    .privacy-container h1 {
+        font-size: 2rem
+    }
+}
+
+@media(max-width:480px) {
+    .privacy-page {
+        padding: 2rem 1rem
+    }
+
+    .privacy-container {
+        padding: 1.8rem
+    }
+
+    .privacy-section h2 {
+        font-size: 1.35rem
+    }
+}

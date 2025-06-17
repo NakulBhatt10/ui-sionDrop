@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-
+import './booking.css'
 const MyBookingsSection = ({ currentBooking, mode, modeConfig, onCancel, onNewBooking }) => {
     if (!currentBooking) {
         return (

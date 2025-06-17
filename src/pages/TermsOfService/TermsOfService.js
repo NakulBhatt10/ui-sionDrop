@@ -1,5 +1,4 @@
-import React from 'react';
-
+import './TermsOfService'
 const TermsOfService = () => {
     return (
         <div className="terms-container">

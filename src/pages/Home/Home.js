@@ -1,7 +1,7 @@
-import React from 'react';
+
 import { TypeAnimation } from 'react-type-animation';
 import { Link } from 'react-router-dom';
-
+import './home.css'
 const Home = () => {
     return (
         <div className="home-container">
