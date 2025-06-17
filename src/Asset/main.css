@@ -355,7 +355,7 @@ body {
     background-image: linear-gradient(to bottom,
             rgba(0, 0, 0, 0.7) 0%,
             rgba(0, 0, 0, 0.5) 30%,
-            rgba(0, 0, 0, 0.3) 100%), url('../image/background.png');
+            rgba(0, 0, 0, 0.3) 100%), url('./background.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

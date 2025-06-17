@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import config from '../../config';
 
 const Navbar = () => {
     const location = useLocation();
@@ -14,7 +13,7 @@ const Navbar = () => {
         <nav className="navbar">
             <div className="navbar-brand">
                 <Link to="/" className="logo">
-                    {config.APP_NAME}
+                    SionDrop
                 </Link>
                 <button className="hamburger" onClick={toggleMenu} aria-label="Toggle menu">
                     <span className={`hamburger-line ${isMenuOpen ? 'open' : ''}`}></span>
