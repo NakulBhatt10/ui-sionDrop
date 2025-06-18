@@ -34,13 +34,7 @@ const Navbar = () => {
                 >
                     Modes
                 </Link>
-                <Link
-                    to="/booking"
-                    className={location.pathname === '/booking' ? 'active' : ''}
-                    onClick={() => setIsMenuOpen(false)}
-                >
-                    Book Now
-                </Link>
+
             </div>
         </nav>
     );

@@ -43,12 +43,7 @@ const MyBookingsSection = ({ currentBooking, mode, modeConfig, onCancel, onNewBo
                     >
                         Cancel Booking
                     </button>
-                    <button
-                        className="new-booking-button"
-                        onClick={onNewBooking}
-                    >
-                        Book Another Slot
-                    </button>
+
                 </div>
             </div>
         </div>
@@ -283,15 +278,7 @@ const Booking = () => {
                                     <div className="slot-actions">
                                         {slot.participants.some(p => p.id === 'current-user') ? (
                                             <div className="cancel-booking-container">
-                                                <button
-                                                    className="cancel-button"
-                                                    onClick={(e) => handleCancelBooking(slot, e)}
-                                                    data-tooltip="Cancel your booking for this time slot"
-                                                >
-                                                    <span className="cancel-icon">✕</span>
-                                                    <span className="cancel-text">Cancel Booking</span>
-                                                    <span className="cancel-time">{formatTime(slot.time)}</span>
-                                                </button>
+
                                             </div>
                                         ) : (
                                             <button
@@ -312,26 +299,8 @@ const Booking = () => {
                                                 {userHasBooked ? 'Already Booked' : isSlotFull(slot) ? 'Slot Full' : 'Book Now'}
                                             </button>
                                         )}
-                                        {!isSlotFull(slot) && !closedSlots.includes(slot.id) && (
-                                            <button
-                                                className="close-slot-button"
-                                                onClick={() => handleCloseSlot(slot.id)}
-                                                disabled={slot.time < currentTime}
-                                                data-tooltip="Close this slot for bookings"
-                                            >
-                                                Close Slot
-                                            </button>
-                                        )}
-                                        {(isSlotFull(slot) || closedSlots.includes(slot.id)) && (
-                                            <button
-                                                className="reopen-slot-button"
-                                                onClick={() => handleReopenSlot(slot.id)}
-                                                disabled={slot.time < currentTime}
-                                                data-tooltip="Reopen this slot for bookings"
-                                            >
-                                                Reopen Slot
-                                            </button>
-                                        )}
+
+
                                     </div>
                                 </div>
                             ))}

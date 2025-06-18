@@ -1,94 +1,142 @@
+/* ---------- COLOR TOKENS (shared palette) ---------- */
 :root {
     --primary: #FFD100;
+    /* SionDrop yellow */
     --secondary: #000000;
+    /* deep black */
     --white: #FFFFFF;
     --gray: #F5F5F5;
+    --text-dark: #333;
+    --text-light: #666;
 }
 
-.terms-page {
-    background: var(--gray);
-    min-height: calc(100vh - 70px);
-    padding: 4rem 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
+/* ---------- PAGE WRAPPER ---------- */
 .terms-container {
-    width: 100%;
     max-width: 900px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
     background: var(--white);
-    border-radius: 16px;
-    box-shadow: 0 8px 18px rgba(0, 0, 0, .07);
-    padding: 3rem;
-    animation: fadeIn .7s ease;
+
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text-dark);
+    line-height: 1.8;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
 }
 
+/* ---------- MAIN HEADING ---------- */
 .terms-container h1 {
-    font-size: 2.5rem;
+    font-size: 2.8rem;
     color: var(--secondary);
-    margin-bottom: 2rem;
+    margin-bottom: 0.8rem;
     text-align: center;
 }
 
-.terms-section {
-    margin-bottom: 2.4rem;
-}
-
-.terms-section h2 {
-    font-size: 1.6rem;
-    color: var(--secondary);
-    margin-bottom: .8rem;
-}
-
-.terms-section p,
-.terms-section li {
+/* small date line under h1 */
+.terms-container>p:first-of-type {
     font-size: 1rem;
-    line-height: 1.7;
-    color: #555;
+    color: var(--text-light);
+    text-align: center;
+    margin-bottom: 2.2rem;
 }
 
-.terms-section ul {
-    padding-left: 1.2rem;
-    list-style: disc;
+/* ---------- SECTION HEADINGS ---------- */
+.terms-container h2 {
+    display: flex;
+    /* lets us add a colored badge */
+    align-items: center;
+    gap: 0.6rem;
+
+    font-size: 1.9rem;
+    color: var(--secondary);
+    margin: 2.8rem 0 1rem;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px)
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0)
-    }
+/* yellow circular badge for “1.” “2.” etc. */
+.terms-container h2::before {
+    content: counter(section) ".";
+    counter-increment: section;
+    background: var(--primary);
+    color: var(--secondary);
+    font-size: 1rem;
+    font-weight: 700;
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-@media(max-width:768px) {
-    .terms-page {
-        padding: 3rem 1.5rem
-    }
+/* reset counter before first section */
+.terms-container {
+    counter-reset: section;
+}
 
+/* ---------- PARAGRAPHS ---------- */
+.terms-container p {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-bottom: 1.4rem;
+}
+
+/* ---------- EMAIL / STRONG ---------- */
+.terms-container strong {
+    color: var(--secondary);
+}
+
+/* ---------- OPTIONAL INLINE LINKS ---------- */
+.terms-container a {
+    color: var(--primary);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.25s;
+}
+
+.terms-container a:hover,
+.terms-container a:focus {
+    border-color: var(--primary);
+}
+
+/* ---------- RESPONSIVENESS ---------- */
+@media (max-width: 768px) {
     .terms-container {
-        padding: 2.2rem
+        padding: 3rem 1.5rem;
     }
 
     .terms-container h1 {
-        font-size: 2rem
+        font-size: 2.3rem;
+    }
+
+    .terms-container h2 {
+        font-size: 1.6rem;
+    }
+
+    .terms-container p {
+        font-size: 1rem;
+    }
+
+    .terms-container h2::before {
+        width: 1.8rem;
+        height: 1.8rem;
+        font-size: 0.9rem;
     }
 }
 
-@media(max-width:480px) {
-    .terms-page {
-        padding: 2rem 1rem
-    }
-
+@media (max-width: 480px) {
     .terms-container {
-        padding: 1.8rem
+        padding: 2rem 1rem;
     }
 
-    .terms-section h2 {
-        font-size: 1.35rem
+    .terms-container h1 {
+        font-size: 1.9rem;
+    }
+
+    .terms-container h2 {
+        font-size: 1.45rem;
+    }
+
+    .terms-container p {
+        font-size: 0.95rem;
     }
 }

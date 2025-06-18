@@ -19,11 +19,14 @@
     background-position: center;
     background-repeat: no-repeat;
     position: relative;
-    animation: fadeIn 1.2s ease-out;
+    animation: fadeIn 0.2s ease-out;
 }
+
+
 
 .hero-section {
     text-align: center;
+    max-height: 77777777770px;
     max-width: 900px;
     margin: 0 auto;
     padding-top: 2rem;
@@ -32,7 +35,7 @@
 .tagline {
     font-size: 3.8rem;
     font-weight: 700;
-    line-height: 1.3;
+    line-height: 1.5;
     margin-bottom: 2rem;
     color: var(--primary);
     text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.35);
@@ -42,7 +45,7 @@
     color: var(--white);
     display: block;
     margin-top: 1rem;
-    min-height: 80px;
+    min-height: 70px;
     font-weight: 600;
 }
 
@@ -56,7 +59,7 @@
     border: none;
     cursor: pointer;
     transition: all 0.3s ease;
-    margin-top: 2.2rem;
+    margin-top: 5;
     text-decoration: none;
     display: inline-block;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);

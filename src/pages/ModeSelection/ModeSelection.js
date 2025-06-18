@@ -6,21 +6,20 @@ const ModeSelection = () => {
             id: 1,
             name: 'Taxi',
             icon: '🚕',
-            description: 'Share a comfortable taxi ride with verified co-passengers',
+
             color: '#FFD100'
         },
         {
             id: 2,
             name: 'Auto Rickshaw',
             icon: '🛺',
-            description: 'Economic & convenient auto sharing for short distances',
+
             color: '#00A36C'
         },
         {
             id: 3,
             name: 'Walking',
             icon: '🚶',
-            description: 'Find walking buddies for your daily commute',
             color: '#FF6B6B'
         }
     ];

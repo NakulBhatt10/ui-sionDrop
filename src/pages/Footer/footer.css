@@ -7,17 +7,41 @@
     --yellow-dark: #E5BC00;
 }
 
+/* ─── STICKY-FOOTER LAYOUT ────────────────────────────── */
+/* 1) Give the document a full-height flex column.        */
+/*    (#root is the React mount-node; replace with .app   */
+/*    or .main-wrapper if you use a different top div.)   */
+html,
+body,
+#root {
+    height: 100%;
+    margin: 0;
+}
 
+#root {
+    display: flex;
+    flex-direction: column;
+    /* everything stacks vertically */
+}
+
+/* any page content wrapper should flex-grow so it fills space */
+.main-content {
+    flex: 1 0 auto;
+    /* grow/shrink, but not the footer */
+}
+
+/* ─── FOOTER ───────────────────────────────────────────── */
 .footer {
+    /* keeps footer pushed to the bottom when content is short */
+    margin-top: auto;
+
     position: relative;
     overflow: hidden;
     background: linear-gradient(135deg, #FFD700, #B87333);
     color: var(--white);
     padding: 2.5rem 0;
-    margin-top: auto;
     border-top: 1px solid rgba(255, 255, 255, 0.15);
 }
-
 
 .footer::before {
     content: '';
@@ -26,7 +50,6 @@
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(6px);
 }
-
 
 .footer-content {
     position: relative;
@@ -39,7 +62,6 @@
     gap: 1.8rem;
     text-align: center;
 }
-
 
 .footer-links {
     display: flex;
@@ -62,7 +84,6 @@
     background: var(--white);
     transform: translateY(-3px);
 }
-
 
 .social-links {
     display: flex;
@@ -87,7 +108,6 @@
     transform: translateY(-3px);
 }
 
-
 .footer-copyright {
     position: relative;
     color: var(--secondary);
@@ -98,7 +118,7 @@
     line-height: 1.5;
 }
 
-
+/* heartbeat emoji */
 .heart {
     color: #ff4d4d;
     display: inline-block;
@@ -117,7 +137,7 @@
     }
 }
 
-
+/* ─── RESPONSIVE TWEAKS ───────────────────────────────── */
 @media (max-width: 768px) {
     .footer {
         padding: 2rem 0;
@@ -128,10 +148,7 @@
         padding: 0 1rem;
     }
 
-    .footer-links {
-        gap: 1rem;
-    }
-
+    .footer-links,
     .social-links {
         gap: 1rem;
     }

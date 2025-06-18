@@ -26,7 +26,47 @@ const About = () => {
                 Founded in Mumbai, India, in 2025, SionDrop started as a side project and grew into a full-fledged solution aimed at streamlining everyday bookings. We believe in building digital tools that make life easier and smarter.
             </p>
 
-            <p>Thank you for being part of our journey.</p>
+            <p>Thank you for being part of our journey.
+
+
+
+
+
+
+
+
+
+
+
+
+                .
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                .
+
+
+
+
+
+
+            </p>
         </div>
     );
 };
