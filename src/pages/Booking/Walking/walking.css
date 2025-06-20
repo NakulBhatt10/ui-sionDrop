@@ -1,3 +1,5 @@
+/* src/pages/walking.css */
+
 :root {
     --primary: #FFD100;
     --secondary: #000000;
@@ -9,19 +11,17 @@
     --success: #4CAF50;
 }
 
-
-.booking-page {
+.walking-page {
     padding: 3rem 2rem;
     max-width: 1200px;
     margin: 0 auto;
 }
 
 @media (max-width: 768px) {
-    .booking-page {
+    .walking-page {
         padding: 2rem 1rem;
     }
 }
-
 
 .booking-header {
     display: flex;
@@ -35,7 +35,6 @@
 .mode-icon {
     font-size: 2.5rem;
 }
-
 
 .current-time {
     background: var(--gray);
@@ -72,7 +71,6 @@
     transform: translateY(-4px);
 }
 
-
 .slot-card.expired {
     opacity: 0.55;
     filter: grayscale(1);
@@ -96,7 +94,6 @@
     border-radius: 12px;
     pointer-events: none;
 }
-
 
 .slot-time {
     font-size: 1.5rem;
@@ -148,7 +145,6 @@
     font-size: 0.7rem;
 }
 
-
 .slot-actions {
     display: flex;
     gap: 0.5rem;
@@ -170,7 +166,6 @@
     transition: transform 0.2s, opacity 0.25s;
 }
 
-
 .book-button {
     background: var(--card-color);
     color: var(--white);
@@ -184,7 +179,6 @@
     opacity: 0.5;
     cursor: not-allowed;
 }
-
 
 .cancel-booking-button {
     background: #dc3545;
@@ -206,7 +200,6 @@
     transform: translateY(0);
 }
 
-
 .close-slot-button {
     background: var(--error);
     color: var(--white);
@@ -227,7 +220,6 @@
     opacity: 0.5;
     cursor: not-allowed;
 }
-
 
 .booking-confirmation {
     position: fixed;
@@ -261,7 +253,6 @@
         bottom: 1rem;
     }
 }
-
 
 .contact-modal-overlay {
     position: fixed;
@@ -347,7 +338,6 @@
     transform: translateY(-2px);
 }
 
-
 .contact-action-btn:not(.message) {
     background: var(--primary);
     color: var(--secondary);
@@ -369,12 +359,10 @@
     }
 }
 
-
 .full-status {
     color: var(--error);
     font-weight: 600;
 }
-
 
 @keyframes fadeIn {
     from {

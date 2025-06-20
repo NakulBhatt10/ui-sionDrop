@@ -1,176 +1,211 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   VARIABLES
+───────────────────────────────────────────────────────────────────────────── */
 :root {
     --primary: #FFD100;
     --secondary: #000000;
     --white: #FFFFFF;
     --gray: #F5F5F5;
-    --yellow-light: #FFE145;
-    --yellow-dark: #E5BC00;
+    --green: #008953;
+    --red: #FF6B6B;
 }
 
-.mode-selection-page {
+/* ─────────────────────────────────────────────────────────────────────────────
+   GLOBAL RESET & BASE
+───────────────────────────────────────────────────────────────────────────── */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
     background: var(--gray);
-    padding: 4rem 2rem;
-    min-height: calc(100vh - 70px);
+    color: var(--secondary);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   HEADER / NAV
+───────────────────────────────────────────────────────────────────────────── */
+header {
+    background: var(--secondary);
+    height: 70px;
     display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+header .logo {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--primary);
+    text-decoration: none;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+nav ul li {
+    margin-left: 1.5rem;
+}
+
+nav ul li a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    line-height: 1;
+}
+
+/* “Modes” pill button */
+nav ul li .btn {
+    display: inline-block;
+    background: var(--primary);
+    color: var(--secondary);
+    padding: 0.4rem 1rem;
+    border-radius: 4px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   MODE SELECTION PAGE
+───────────────────────────────────────────────────────────────────────────── */
+.mode-selection-page {
+    padding: 3rem 1rem;
+    min-height: calc(100vh - 70px);
+    text-align: center;
 }
 
 .mode-selection-title {
-    font-size: 2.6rem;
+    font-size: 2rem;
     color: var(--secondary);
-    margin-bottom: 3rem;
-    text-align: center;
-
+    margin-bottom: 2.5rem;
 }
 
 .mode-cards {
-    width: 100%;
-    max-width: 1200px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 2rem;
 }
 
+/* ─────────────────────────────────────────────────────────────────────────────
+   CARD
+───────────────────────────────────────────────────────────────────────────── */
 .mode-card {
     position: relative;
+    width: 300px;
+    /* increased width */
+    min-height: 400px;
+    /* increased height */
     background: var(--white);
-    border-radius: 20px;
-    padding: 2rem;
-    text-align: center;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-shadow: 0 6px 14px rgba(0, 0, 0, .07);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    text-align: center;
+    padding: 3rem 1.5rem 2rem;
+    /* increased padding */
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.mode-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
 .mode-card::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 6px;
+    height: 60px;
     background: var(--card-color);
 }
 
-.mode-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, .1);
+/* MODE-SPECIFIC COLORED VARIABLES */
+.mode-card.taxi {
+    --card-color: var(--primary);
 }
 
+.mode-card.auto-rickshaw {
+    --card-color: var(--green);
+}
+
+.mode-card.walking {
+    --card-color: var(--red);
+}
+
+/* ICON WRAPPER */
 .mode-icon-wrapper {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    background: var(--card-color);
+    position: absolute;
+    top: 10px;
+    /* centers inside the 60px bar */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    /* increased */
+    height: 160px;
+    /* increased */
     display: flex;
-    align-items: center;
+    align-items: bottom;
     justify-content: center;
-    margin-bottom: 1.5rem;
-    transition: transform .3s;
-}
-
-.mode-card:hover .mode-icon-wrapper {
-    transform: scale(1.1);
+    background: transparent !important;
+    border-radius: 50%;
 }
 
 .mode-emoji {
-    font-size: 4rem;
+    font-size: 2.5rem;
+    /* increased */
 }
 
+/* TITLE & BUTTON */
 .mode-name {
-    font-size: 1.6rem;
+    font-size: 1.2rem;
+    /* increased */
     font-weight: 600;
     color: var(--secondary);
-    margin-bottom: 1rem;
-}
-
-.mode-description {
-    color: #666;
-    line-height: 1.6;
-    margin-bottom: 1.8rem;
-    flex-grow: 1;
+    margin: 1rem 0 1.5rem;
+    /* adjusted spacing */
 }
 
 .select-mode-btn {
     background: var(--card-color);
     color: var(--white);
-    padding: .8rem 2.2rem;
-    border: none;
-    border-radius: 28px;
-    font-weight: 600;
+    padding: 0.6rem 1.2rem;
+    /* increased */
+    border: 1px solid var(--secondary);
+    border-radius: 4px;
+    font-size: 10rem;
     cursor: pointer;
-    transition: transform .25s, opacity .25s;
+    transition: background 0.2s, transform 0.2s;
 }
 
 .select-mode-btn:hover {
-    transform: translateY(-2px);
-    opacity: .9;
+    transform: translateY(-1px);
+    opacity: 0.9;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px)
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0)
-    }
-}
-
-@media(max-width:768px) {
+@media (max-width: 768px) {
     .mode-selection-page {
-        padding: 3rem 1.5rem
-    }
-
-    .mode-selection-title {
-        font-size: 2.1rem;
-        margin-bottom: 2.4rem
-    }
-
-    .mode-cards {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1.6rem
-    }
-
-    .mode-icon-wrapper {
-        width: 100px;
-        height: 100px
-    }
-
-    .mode-emoji {
-        font-size: 3rem
-    }
-
-    .mode-name {
-        font-size: 1.4rem
-    }
-}
-
-@media(max-width:480px) {
-    .mode-selection-page {
-        padding: 2rem 1rem
-    }
-
-    .mode-selection-title {
-        font-size: 1.8rem
+        padding: 2rem 1rem;
     }
 
     .mode-card {
-        padding: 1.6rem
+        width: 100%;
+        max-width: 300px;
+        padding-top: 2.5rem;
     }
 
-    .mode-description {
-        font-size: .95rem
-    }
-
-    .select-mode-btn {
-        padding: .7rem 1.8rem;
-        font-size: .95rem
+    .mode-selection-title {
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
     }
 }

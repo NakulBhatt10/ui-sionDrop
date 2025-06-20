@@ -1,51 +1,40 @@
-import { Link } from 'react-router-dom';
-import './modeselection.css'
-const ModeSelection = () => {
-    const modes = [
-        {
-            id: 1,
-            name: 'Taxi',
-            icon: '🚕',
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import './ModeSelection.css';
 
-            color: '#FFD100'
-        },
-        {
-            id: 2,
-            name: 'Auto Rickshaw',
-            icon: '🛺',
+const MODES = [
+    { id: 'taxi', label: 'Taxi', icon: '🚕', color: '#FFD100' },
+    { id: 'auto', label: 'Auto Rickshaw', icon: '🛺', color: '#00A36C' },
+    { id: 'walking', label: 'Walking', icon: '🚶', color: '#FF6B6B' },
+];
 
-            color: '#00A36C'
-        },
-        {
-            id: 3,
-            name: 'Walking',
-            icon: '🚶',
-            color: '#FF6B6B'
-        }
-    ];
+export default function ModeSelection() {
+    const navigate = useNavigate();
 
     return (
         <div className="mode-selection-page">
-            <h1 className="mode-selection-title">Choose Your Travel Mode</h1>
+            <h1>Choose Your Travel Mode</h1>
             <div className="mode-cards">
-                {modes.map((mode) => (
-                    <Link
-                        to={`/booking?mode=${mode.name.toLowerCase()}`}
+                {MODES.map(({ id, label, icon, color }) => (
+                    <div
+                        key={id}
                         className="mode-card"
-                        key={mode.id}
-                        style={{ '--card-color': mode.color }}
+                        style={{ borderTop: `4px solid ${color}` }}
                     >
-                        <div className="mode-icon-wrapper">
-                            <span className="mode-emoji">{mode.icon}</span>
+                        <div className="mode-icon" style={{ backgroundColor: color }}>
+                            {icon}
                         </div>
-                        <h2 className="mode-name">{mode.name}</h2>
-                        <p className="mode-description">{mode.description}</p>
-                        <button className="select-mode-btn">Select</button>
-                    </Link>
+                        <h3>{label}</h3>
+                        <button
+                            className="select-button"
+                            style={{ backgroundColor: color }}
+                            onClick={() => navigate(`/booking/${id}`)}
+                        >
+                            Select
+                        </button>
+                    </div>
                 ))}
             </div>
         </div>
     );
-};
-
-export default ModeSelection; 
+}
