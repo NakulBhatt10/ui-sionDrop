@@ -12,16 +12,10 @@ function getSlotTime(index) {
     return t;
 }
 
-// ------------------------------------------------------------------
-//  helper: “4:45 am” formatting
-// ------------------------------------------------------------------
 function formatTime(date) {
     return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
 }
 
-// ------------------------------------------------------------------
-//  helper: generate taxiId from date (YYYYMMDD-hhmmam/pm)
-// ------------------------------------------------------------------
 function generateTaxiId(date) {
     const Y = date.getFullYear();
     const M = String(date.getMonth() + 1).padStart(2, '0');
@@ -34,18 +28,14 @@ function generateTaxiId(date) {
     return `${Y}${M}${D}-${h}${m}${ampm}`;
 }
 
-
-// ------------------------------------------------------------------
-//  build the initial six slots
-// ------------------------------------------------------------------
 function buildInitialSlots() {
-    return Array.from({ length: 6 }, (_, i) => {
+    return Array.from({ length: 14 }, (_, i) => {
         const time = getSlotTime(i);
         return {
             taxiId: generateTaxiId(time),
             time,
             users: [],
-            maxCapacity: 3
+            maxCapacity: 4
         };
     });
 }
@@ -85,9 +75,6 @@ export default function BookTaxiSlot() {
         fetchCurrentBooking();
     }, []);
 
-    // ----------------------------------------------------------------
-    //  click handler
-    // ----------------------------------------------------------------
     async function handleBook(slotIndex) {
         const slot = slots[slotIndex];
 
@@ -122,33 +109,6 @@ export default function BookTaxiSlot() {
         }
     }
 
-    // async function handleCancel(idx) {
-    //     const slot = slots[idx];
-    //     const token = localStorage.getItem('user-token');
-    //     if (!token) return;
-
-    //     const res = await fetch('http://localhost:5000/cancel-booking', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             'Authorization': `Bearer ${token}`
-    //         },
-    //         body: JSON.stringify({ taxiId: slot.taxiId })
-    //     });
-    //     if (!res.ok) {
-    //         alert('Cancel failed');
-    //         return;
-    //     }
-    //     const { users } = await res.json();
-
-    //     // clear booking state & update that slot’s riders
-    //     setCurrentBooking(null);
-    //     setSlots(slots =>
-    //         slots.map((s, i) =>
-    //             i === idx ? { ...s, users } : s
-    //         )
-    //     );
-    // }
     async function handleCancel() {
         if (!currentBooking) return;
         const token = localStorage.getItem('user-token');
