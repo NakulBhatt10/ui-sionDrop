@@ -1,238 +1,245 @@
-import { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import './taxi.css';
 
-const mode = 'taxi';
-const modeConfig = { taxi: { capacity: 4, icon: '🚕', color: '#FFD100' } };
+// ------------------------------------------------------------------
+//  helper: round to next 5-minute mark then add N×5 minutes
+// ------------------------------------------------------------------
+function getSlotTime(index) {
+    const t = new Date();
+    t.setSeconds(0, 0);
+    t.setMinutes(Math.ceil(t.getMinutes() / 5) * 5 + index * 5);
+    return t;
+}
 
-const MyBookingsSection = ({ currentBooking, onCancel, onNewBooking }) => {
-    if (!currentBooking) {
-        return (
-            <div className="my-bookings-empty">
-                <h2>My Bookings</h2>
-                <div className="empty-state">
-                    <span className="empty-icon">📅</span>
-                    <p>You don't have any active bookings</p>
-                </div>
-            </div>
-        );
-    }
-    return (
-        <div className="my-bookings-section">
-            <h2>My Current Booking</h2>
-            <div className="current-booking-card">
-                <div className="booking-header">
-                    <span className="mode-icon">{modeConfig[mode].icon}</span>
-                    <span className="mode-name">{mode}</span>
-                </div>
-                <div className="booking-info">
-                    <div className="info-row">
-                        <span className="label">Time:</span>
-                        <span className="value">{currentBooking.time}</span>
-                    </div>
-                    <div className="info-row">
-                        <span className="label">Booking ID:</span>
-                        <span className="value">#{currentBooking.id}</span>
-                    </div>
-                    <div className="info-row">
-                        <span className="label">Other Participants:</span>
-                        <span className="value">{currentBooking.otherParticipants}</span>
-                    </div>
-                </div>
-                <div className="booking-actions">
-                    <button className="cancel-booking-button" onClick={onCancel}>
-                        Cancel Booking
-                    </button>
-                </div>
-            </div>
-        </div>
-    );
-};
+// ------------------------------------------------------------------
+//  helper: “4:45 am” formatting
+// ------------------------------------------------------------------
+function formatTime(date) {
+    return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+}
 
-export default function Taxi() {
-    const [currentTime, setCurrentTime] = useState(new Date());
-    const [slots, setSlots] = useState([]);
-    const [selectedSlot, setSelectedSlot] = useState(null);
-    const [userHasBooked, setUserHasBooked] = useState(false);
-    const [bookingError, setBookingError] = useState(null);
-    const [closedSlots, setClosedSlots] = useState([]);
-    const [selectedParticipant, setSelectedParticipant] = useState(null);
-    const [showContactInfo, setShowContactInfo] = useState(false);
-    const [bookingStatus, setBookingStatus] = useState({ status: null, message: '' });
-    const [showBookingForm, setShowBookingForm] = useState(true);
+// ------------------------------------------------------------------
+//  helper: generate taxiId from date (YYYYMMDD-hhmmam/pm)
+// ------------------------------------------------------------------
+function generateTaxiId(date) {
+    const Y = date.getFullYear();
+    const M = String(date.getMonth() + 1).padStart(2, '0');
+    const D = String(date.getDate()).padStart(2, '0');
+    let hour = date.getHours();
+    const ampm = hour >= 12 ? 'pm' : 'am';
+    hour = hour % 12 || 12;
+    const h = String(hour);
+    const m = String(date.getMinutes()).padStart(2, '0');
+    return `${Y}${M}${D}-${h}${m}${ampm}`;
+}
+
+
+// ------------------------------------------------------------------
+//  build the initial six slots
+// ------------------------------------------------------------------
+function buildInitialSlots() {
+    return Array.from({ length: 6 }, (_, i) => {
+        const time = getSlotTime(i);
+        return {
+            taxiId: generateTaxiId(time),
+            time,
+            users: [],
+            maxCapacity: 3
+        };
+    });
+}
+
+export default function BookTaxiSlot() {
+    const [slots, setSlots] = useState(buildInitialSlots);
+    const [currentBooking, setCurrentBooking] = useState(null); // null → not shown
 
     useEffect(() => {
-        const generateSlots = () => {
-            const now = new Date();
-            const s = [];
-            for (let i = 0; i < 6; i++) {
-                const slotTime = new Date(now.getTime() + i * 10 * 60000);
-                s.push({
-                    id: i,
-                    time: slotTime,
-                    participants: [],
-                    isActive: i === 0,
-                    capacity: modeConfig[mode].capacity
+        async function fetchCurrentBooking() {
+            const token = localStorage.getItem('user-token');
+            if (!token) return;
+
+            try {
+                const res = await fetch('http://localhost:5000/current-booking', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
                 });
+
+                if (!res.ok) return;
+
+                const data = await res.json();
+                const bookingTime = new Date(data.booking.time);
+                const now = new Date();
+
+                if (bookingTime > now) {
+                    setCurrentBooking(data.booking);
+                } else {
+                    setCurrentBooking(null); // booking is expired
+                }
+            } catch (err) {
+                console.error('Failed to fetch current booking:', err);
             }
-            setSlots(s);
-        };
-        generateSlots();
-        const iv = setInterval(() => {
-            setCurrentTime(new Date());
-            generateSlots();
-        }, 60000);
-        return () => clearInterval(iv);
+        }
+
+        fetchCurrentBooking();
     }, []);
 
-    const formatTime = d =>
-        d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    // ----------------------------------------------------------------
+    //  click handler
+    // ----------------------------------------------------------------
+    async function handleBook(slotIndex) {
+        const slot = slots[slotIndex];
 
-    const isFull = slot => slot.participants.length >= slot.capacity;
-    const getStatus = slot => {
-        if (closedSlots.includes(slot.id)) return 'Closed';
-        if (isFull(slot)) return 'Full - Booking Closed';
-        if (slot.time < currentTime) return 'Expired';
-        return `${slot.capacity - slot.participants.length} spots left`;
-    };
+        try {
+            const token = localStorage.getItem('user-token');
 
-    const handleBook = slot => {
-        if (userHasBooked) {
-            setBookingError({ type: 'error', message: 'You can only book one slot. Cancel first.' });
-            return;
+            const res = await fetch('http://localhost:5000/book-taxi-now', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    taxiId: slot.taxiId,
+                    time: slot.time.toISOString()
+                })
+            });
+
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const data = await res.json();
+
+            // update that slot with returned users list
+            setSlots(prev =>
+                prev.map((s, i) =>
+                    i === slotIndex ? { ...s, users: data.booking.users } : s
+                )
+            );
+            setCurrentBooking(data.booking);
+        } catch (err) {
+            console.error('Booking failed:', err);
+            alert('Failed to book taxi slot, please try again.');
         }
-        if (slot.time < currentTime || isFull(slot) || closedSlots.includes(slot.id)) return;
-        setBookingStatus({ status: 'pending', message: 'Processing...' });
-        setTimeout(() => {
-            setSlots(slots.map(s => {
-                if (s.id === slot.id) {
-                    const p = [...s.participants, { id: 'you', name: 'You', contact: '+91 99999-XXXXX', rating: 4.0, trips: 5 }];
-                    if (p.length >= s.capacity) setClosedSlots(cs => [...cs, s.id]);
-                    return { ...s, participants: p };
-                }
-                return s;
-            }));
-            setUserHasBooked(true);
-            setSelectedSlot(slot);
-            setBookingError(null);
-            setBookingStatus({ status: 'success', message: `Booked for ${formatTime(slot.time)}` });
-            setTimeout(() => setBookingStatus({ status: null, message: '' }), 3000);
-        }, 800);
-    };
+    }
 
-    const handleCancel = () => {
-        if (!window.confirm('Cancel your booking?')) return;
-        setSlots(slots.map(s =>
-            s.id === selectedSlot.id
-                ? { ...s, participants: s.participants.filter(p => p.id !== 'you') }
-                : s
-        ));
-        setUserHasBooked(false);
-        setSelectedSlot(null);
-        setBookingError({ type: 'success', message: 'Booking cancelled.' });
-        setTimeout(() => setBookingError(null), 3000);
-    };
+    // async function handleCancel(idx) {
+    //     const slot = slots[idx];
+    //     const token = localStorage.getItem('user-token');
+    //     if (!token) return;
 
-    const showContact = p => {
-        setSelectedParticipant(p);
-        setShowContactInfo(true);
-    };
+    //     const res = await fetch('http://localhost:5000/cancel-booking', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'Authorization': `Bearer ${token}`
+    //         },
+    //         body: JSON.stringify({ taxiId: slot.taxiId })
+    //     });
+    //     if (!res.ok) {
+    //         alert('Cancel failed');
+    //         return;
+    //     }
+    //     const { users } = await res.json();
+
+    //     // clear booking state & update that slot’s riders
+    //     setCurrentBooking(null);
+    //     setSlots(slots =>
+    //         slots.map((s, i) =>
+    //             i === idx ? { ...s, users } : s
+    //         )
+    //     );
+    // }
+    async function handleCancel() {
+        if (!currentBooking) return;
+        const token = localStorage.getItem('user-token');
+
+        try {
+            const res = await fetch('http://localhost:5000/cancel-booking', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ taxiId: currentBooking.taxiId })
+            });
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const { users } = await res.json();
+
+            // clear state & update that slot’s riders
+            setCurrentBooking(null);
+            setSlots(s =>
+                s.map(sl =>
+                    sl.taxiId === currentBooking.taxiId
+                        ? { ...sl, users }
+                        : sl
+                )
+            );
+        } catch (err) {
+            console.error('Cancel failed:', err);
+            alert('Failed to cancel booking.');
+        }
+    }
 
     return (
-        <div className="taxi-page">
-            <MyBookingsSection
-                currentBooking={
-                    selectedSlot && {
-                        id: `${selectedSlot.id}-${Date.now().toString().slice(-4)}`,
-                        time: formatTime(selectedSlot.time),
-                        otherParticipants: selectedSlot.participants.length - 1
-                    }
-                }
-                onCancel={handleCancel}
-                onNewBooking={() => setShowBookingForm(true)}
-            />
-
-            {showBookingForm && (
-                <div className="booking-form-section">
-                    <div className="booking-header">
-                        <span className="mode-icon">{modeConfig[mode].icon}</span>
-                        <h1>Book your {mode} slot</h1>
-                    </div>
-
-                    <div className="current-time">Current Time: {formatTime(currentTime)}</div>
-
-                    {bookingStatus.status && (
-                        <div className={`booking-status-message ${bookingStatus.status}`}>
-                            {bookingStatus.status === 'pending' && <span className="loading-spinner" />}
-                            {bookingStatus.message}
-                        </div>
-                    )}
-
-                    {bookingError && (
-                        <div className={`booking-error-message ${bookingError.type}`}>
-                            {bookingError.message}
-                        </div>
-                    )}
-
-                    <div className="slots-container">
-                        {slots.map(slot => (
-                            <div
-                                key={slot.id}
-                                className={`slot-card${slot.isActive ? ' active' : ''}${slot.time < currentTime ? ' expired' : ''}${(closedSlots.includes(slot.id) || isFull(slot)) ? ' closed' : ''}${selectedSlot?.id === slot.id ? ' selected' : ''}`}
-                                style={{ '--card-color': modeConfig[mode].color }}
-                            >
-                                <div className="slot-time">{formatTime(slot.time)}</div>
-                                <div className="slot-status">{getStatus(slot)}</div>
-                                <div className="slot-participants">
-                                    {slot.participants.map((p, i) => (
-                                        <span key={i} className="participant" onClick={() => showContact(p)}>
-                                            {p.name}<span className="participant-info-icon">ℹ️</span>
-                                        </span>
-                                    ))}
-                                </div>
-                                <div className="slot-actions">
-                                    {!slot.participants.some(p => p.id === 'you') && (
-                                        <button
-                                            className="book-button"
-                                            disabled={slot.time < currentTime || isFull(slot) || closedSlots.includes(slot.id) || userHasBooked}
-                                            onClick={() => handleBook(slot)}
-                                        >
-                                            {userHasBooked ? 'Already Booked' : isFull(slot) ? 'Slot Full' : 'Book Now'}
-                                        </button>
-                                    )}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-
-                    {showContactInfo && selectedParticipant && (
-                        <div className="contact-modal-overlay" onClick={() => setShowContactInfo(false)}>
-                            <div className="contact-modal" onClick={e => e.stopPropagation()}>
-                                <button className="close-modal" onClick={() => setShowContactInfo(false)}>×</button>
-                                <div className="contact-header">
-                                    <span className="contact-avatar">{selectedParticipant.name.charAt(0)}</span>
-                                    <h3>{selectedParticipant.name}</h3>
-                                </div>
-                                <div className="contact-details">
-                                    <div className="contact-info-row">
-                                        <span className="info-label">Contact:</span>
-                                        <span className="info-value">{selectedParticipant.contact}</span>
-                                    </div>
-                                    <div className="contact-info-row">
-                                        <span className="info-label">Rating:</span>
-                                        <span className="info-value">{selectedParticipant.rating} ⭐</span>
-                                    </div>
-                                    <div className="contact-info-row">
-                                        <span className="info-label">Total Trips:</span>
-                                        <span className="info-value">{selectedParticipant.trips}</span>
-                                    </div>
-                                </div>
-                                <button className="contact-action-btn">📞 Call Participant</button>
-                                <button className="contact-action-btn message">💬 Send Message</button>
-                            </div>
-                        </div>
-                    )}
+        <div className="taxi-slot-page">
+            {/* Current booking card with Cancel button */}
+            {currentBooking && (
+                <div className="current-booking">
+                    <h3>My Booking</h3>
+                    <p>
+                        <strong>Time:</strong>{' '}
+                        {formatTime(new Date(currentBooking.time))}<br />
+                        <strong>Ride type:</strong> {currentBooking.vehicleType}<br />
+                        <strong>Taxi ID:</strong>{' '}
+                        {currentBooking.taxiId.slice(0, 8)}…
+                    </p>
+                    <button
+                        className="cancel-button"
+                        onClick={handleCancel}
+                    >
+                        Cancel booking
+                    </button>
                 </div>
             )}
+
+            {/* heading -------------------------------------------------- */}
+            <h1>Book Your Taxi Slot</h1>
+
+            {/* grid ----------------------------------------------------- */}
+            <div className="slot-grid">
+                {slots.map((slot, idx) => {
+                    const full = slot.users.length >= slot.maxCapacity;
+                    return (
+                        <div key={slot.taxiId} className="slot-tile">
+                            <div className="slot-time">
+                                {formatTime(slot.time)}
+                            </div>
+
+                            <button
+                                className="slot-btn"
+                                disabled={full || !!currentBooking}
+                                onClick={() => handleBook(idx)}
+                            >
+                                {full ? 'Full' : 'Book now'}
+                            </button>
+
+                            <div className="slot-users">
+                                {slot.users.map(u => (
+                                    <span key={u.userId} className="user-dot">
+                                        {u.name.trim()[0].toUpperCase()}
+                                    </span>
+                                ))}
+                                {Array.from(
+                                    { length: slot.maxCapacity - slot.users.length },
+                                    (_, i) => (
+                                        <span key={i} className="user-dot empty" />
+                                    )
+                                )}
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
         </div>
     );
 }
