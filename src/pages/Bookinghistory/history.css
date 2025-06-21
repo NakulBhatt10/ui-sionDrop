@@ -1,0 +1,47 @@
+:root {
+    --glass-bg: rgba(255, 255, 255, 0.15);
+    --glass-border: rgba(255, 255, 255, 0.3);
+    --glass-shadow: rgba(0, 0, 0, 0.1);
+    --text-light: #fff;
+    --font-primary: 'Segoe UI', Roboto, sans-serif;
+}
+
+.history-page {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 1rem;
+    font-family: var(--font-primary);
+    color: #333;
+}
+
+.history-page h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.current-card,
+.past-list {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px var(--glass-shadow);
+    backdrop-filter: blur(12px);
+    padding: 1rem 1.5rem;
+    margin-bottom: 2rem;
+    color: var(--text-light);
+}
+
+.past-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.past-list li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    font-weight: 500;
+}
+
+.past-list li:last-child {
+    border-bottom: none;
+}

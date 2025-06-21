@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import { useEffect, useState } from 'react';
 import './taxi.css';
 
-// ------------------------------------------------------------------
-//  helper: round to next 5-minute mark then add N×5 minutes
-// ------------------------------------------------------------------
+
 function getSlotTime(index) {
     const t = new Date();
     t.setSeconds(0, 0);
@@ -42,7 +39,7 @@ function buildInitialSlots() {
 
 export default function BookTaxiSlot() {
     const [slots, setSlots] = useState(buildInitialSlots);
-    const [currentBooking, setCurrentBooking] = useState(null); // null → not shown
+    const [currentBooking, setCurrentBooking] = useState(null);
 
     useEffect(() => {
         async function fetchCurrentBooking() {

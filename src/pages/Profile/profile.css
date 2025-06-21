@@ -1,0 +1,36 @@
+:root {
+    --glass-bg: rgba(255, 255, 255, 0.15);
+    --glass-border: rgba(255, 255, 255, 0.3);
+    --glass-shadow: rgba(0, 0, 0, 0.1);
+    --text-light: #fff;
+    --font-primary: 'Segoe UI', Roboto, sans-serif;
+}
+
+.profile-page {
+    max-width: 480px;
+    margin: 2rem auto;
+    padding: 1rem;
+    font-family: var(--font-primary);
+    text-align: center;
+    color: #333;
+}
+
+.profile-page h1 {
+    margin-bottom: 1.5rem;
+}
+
+.profile-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px var(--glass-shadow);
+    backdrop-filter: blur(12px);
+    padding: 1.5rem;
+    color: var(--text-light);
+    text-align: left;
+}
+
+.profile-card p {
+    margin: 0.5rem 0;
+    font-weight: 500;
+}
