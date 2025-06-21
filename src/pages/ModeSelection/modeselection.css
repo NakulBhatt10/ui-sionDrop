@@ -1,209 +1,91 @@
-/* ─────────────────────────────────────────────────────────────────────────────
-   VARIABLES
-───────────────────────────────────────────────────────────────────────────── */
-:root {
-    --primary: #FFD100;
-    --secondary: #000000;
-    --white: #FFFFFF;
-    --gray: #F5F5F5;
-    --green: #008953;
-    --red: #FF6B6B;
-}
-
-/* ─────────────────────────────────────────────────────────────────────────────
-   GLOBAL RESET & BASE
-───────────────────────────────────────────────────────────────────────────── */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    background: var(--gray);
-    color: var(--secondary);
-}
-
-
-header {
-    background: var(--secondary);
-    height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 2rem;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-header .logo {
-    font-size: 1.25rem;
-    font-weight: bold;
-    color: var(--primary);
-    text-decoration: none;
-}
-
-nav ul {
-    list-style: none;
-    display: flex;
-    align-items: center;
-}
-
-nav ul li {
-    margin-left: 1.5rem;
-}
-
-nav ul li a {
-    color: var(--primary);
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.9rem;
-    line-height: 1;
-}
-
-/* “Modes” pill button */
-nav ul li .btn {
-    display: inline-block;
-    background: var(--primary);
-    color: var(--secondary);
-    padding: 0.4rem 1rem;
-    border-radius: 4px;
-}
-
-/* ─────────────────────────────────────────────────────────────────────────────
-   MODE SELECTION PAGE
-───────────────────────────────────────────────────────────────────────────── */
+/*  ---------- Layout wrapper ---------- */
 .mode-selection-page {
-    padding: 3rem 1rem;
-    min-height: calc(100vh - 70px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+    font-family: system-ui, sans-serif;
+}
+
+.mode-selection-page h1 {
+    margin: 0 0 2rem;
+    font-size: 2.75rem;
+    font-weight: 700;
     text-align: center;
 }
 
-.mode-selection-title {
-    font-size: 2rem;
-    color: var(--secondary);
-    margin-bottom: 2.5rem;
-}
-
+/*  ---------- Card grid ---------- */
 .mode-cards {
     display: flex;
+    gap: 2rem;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 2rem;
 }
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   CARD
-───────────────────────────────────────────────────────────────────────────── */
+/*  ---------- Individual card ---------- */
 .mode-card {
-    position: relative;
-    width: 300px;
-    /* increased width */
-    min-height: 400px;
-    /* increased height */
-    background: var(--white);
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
+    width: 280px;
+    /* tweak to taste */
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    padding: 1rem 0 2rem;
     text-align: center;
-    padding: 3rem 1.5rem 2rem;
-    /* increased padding */
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.2s ease;
 }
 
 .mode-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(-6px);
 }
 
-.mode-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 60px;
-    background: var(--card-color);
-}
-
-/* MODE-SPECIFIC COLORED VARIABLES */
-.mode-card.taxi {
-    --card-color: var(--primary);
-}
-
-.mode-card.auto-rickshaw {
-    --card-color: var(--green);
-}
-
-.mode-card.walking {
-    --card-color: var(--red);
-}
-
-/* ICON WRAPPER */
-.mode-icon-wrapper {
-    position: absolute;
-    top: 10px;
-    /* centers inside the 60px bar */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    /* increased */
-    height: 160px;
-    /* increased */
+/*  ---------- Media square ---------- */
+.mode-icon {
+    width: 80%;
+    height: 270px;
+    /* keep it square-ish */
+    margin: 0 auto 1.25rem;
+    border-radius: 6px;
     display: flex;
-    align-items: bottom;
+    align-items: center;
     justify-content: center;
-    background: transparent !important;
-    border-radius: 50%;
+    overflow: hidden;
+    /* crop overflowing gif edges */
 }
 
-.mode-emoji {
-    font-size: 2.5rem;
-    /* increased */
+.mode-icon img {
+    max-width: 70%;
+    max-height: 70%;
+    object-fit: contain;
+    pointer-events: none;
 }
 
-/* TITLE & BUTTON */
-.mode-name {
-    font-size: 1.2rem;
-    /* increased */
+/*  ---------- Title ---------- */
+.mode-card h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.35rem;
+    font-weight: 700;
+}
+
+/*  ---------- CTA button ---------- */
+.select-button {
+    border: none;
+    padding: 0.4rem 1.8rem;
     font-weight: 600;
-    color: var(--secondary);
-    margin: 1rem 0 1.5rem;
-    /* adjusted spacing */
-}
-
-.select-mode-btn {
-    background: var(--card-color);
-    color: var(--white);
-    padding: 0.6rem 1.2rem;
-    /* increased */
-    border: 1px solid var(--secondary);
-    border-radius: 4px;
-    font-size: 10rem;
+    border-radius: 3px;
     cursor: pointer;
-    transition: background 0.2s, transform 0.2s;
+    outline: none;
+    color: #000;
+    /* dark text for high contrast */
+    box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.25);
 }
 
-.select-mode-btn:hover {
-    transform: translateY(-1px);
+.select-button:hover {
     opacity: 0.9;
 }
 
-@media (max-width: 768px) {
-    .mode-selection-page {
-        padding: 2rem 1rem;
-    }
-
+/*  ---------- Responsiveness ---------- */
+@media (max-width: 500px) {
     .mode-card {
-        width: 100%;
-        max-width: 300px;
-        padding-top: 2.5rem;
-    }
-
-    .mode-selection-title {
-        font-size: 1.8rem;
-        margin-bottom: 2rem;
+        width: 90%;
     }
 }
