@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './ModeSelection.css';
+import './ModeSelection';
 
 import TaxiGif from '../../assets/taxi.gif';
 import AutoGif from '../../assets/auto.gif';
