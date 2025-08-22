@@ -151,3 +151,52 @@
         text-align: center;
     }
 }
+
+
+/* container for positioning */
+.navbar-profile {
+    position: relative;
+    margin-left: 1rem;
+}
+
+/* the circular avatar button */
+.avatar-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #444;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* dropdown menu */
+.dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: 48px;
+    background: #222;
+    border: 1px solid #555;
+    border-radius: 4px;
+    list-style: none;
+    padding: 0.5rem 0;
+    min-width: 150px;
+}
+
+.dropdown-menu li+li {
+    margin-top: 0.25rem;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 0.5rem 1rem;
+    color: #fff;
+    text-decoration: none;
+}
+
+.dropdown-menu a:hover {
+    background: #333;
+}

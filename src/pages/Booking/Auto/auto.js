@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './auto.css';
 
-// ------------------------------------------------------------------
-//  helper: round to next 5-minute mark then add N×5 minutes
-// ------------------------------------------------------------------
+
 function getSlotTime(index) {
     const t = new Date();
     t.setSeconds(0, 0);
@@ -11,17 +9,12 @@ function getSlotTime(index) {
     return t;
 }
 
-// ------------------------------------------------------------------
-//  helper: “4:45 am” formatting
-// ------------------------------------------------------------------
+
 function formatTime(date) {
     return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
 }
 
-// ------------------------------------------------------------------
-//  helper: generate rideId from date (YYYYMMDD-hhmmam/pm)
-//  (same as taxi version)
-// ------------------------------------------------------------------
+
 function generateRideId(date) {
     const Y = date.getFullYear();
     const M = String(date.getMonth() + 1).padStart(2, '0');
@@ -34,9 +27,7 @@ function generateRideId(date) {
     return `${Y}${M}${D}-${h}${m}${ampm}`;
 }
 
-// ------------------------------------------------------------------
-//  build the initial six slots (capacity = 3)
-// ------------------------------------------------------------------
+
 function buildInitialSlots() {
     return Array.from({ length: 14 }, (_, i) => {
         const time = getSlotTime(i);
@@ -44,7 +35,7 @@ function buildInitialSlots() {
             taxiId: generateRideId(time),
             time,
             users: [],
-            maxCapacity: 3    // ← 3 seats for auto
+            maxCapacity: 3
         };
     });
 }
@@ -53,7 +44,7 @@ export default function BookAutoSlot() {
     const [slots, setSlots] = useState(buildInitialSlots);
     const [currentBooking, setCurrentBooking] = useState(null);
 
-    // ─ fetch current booking on mount ───────────────────────────────
+
     useEffect(() => {
         async function fetchCurrent() {
             const token = localStorage.getItem('user-token');
@@ -68,7 +59,7 @@ export default function BookAutoSlot() {
                 const { booking } = await res.json();
                 if (new Date(booking.time) > new Date()) {
                     setCurrentBooking(booking);
-                    // fill in the slot's riders
+
                     setSlots(s =>
                         s.map(slot =>
                             slot.taxiId === booking.taxiId
@@ -84,7 +75,7 @@ export default function BookAutoSlot() {
         fetchCurrent();
     }, []);
 
-    // ─ booking handler ──────────────────────────────────────────────
+
     async function handleBook(idx) {
         const slot = slots[idx];
         const token = localStorage.getItem('user-token');
@@ -112,7 +103,6 @@ export default function BookAutoSlot() {
         );
     }
 
-    // ─ cancel handler ───────────────────────────────────────────────
     async function handleCancel() {
         if (!currentBooking) return;
         const token = localStorage.getItem('user-token');
@@ -185,7 +175,12 @@ export default function BookAutoSlot() {
                         </div>
                     );
                 })}
+
+
             </div>
+
         </div>
     );
+
+
 }

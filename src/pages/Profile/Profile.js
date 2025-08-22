@@ -1,33 +1,37 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './profile.css';
 
-export default function Profile() {
-    const [user, setUser] = useState(null);
+const Profile = () => {
+    const [user, setUser] = useState({ name: '', email: '' });
 
     useEffect(() => {
-        const token = localStorage.getItem('user-token');
-        if (!token) return;
-
-        (async () => {
-            const res = await fetch('/profile', {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            if (res.ok) {
-                const { user } = await res.json();
-                setUser(user);
-            }
-        })();
+        // Fetch user details from localStorage (or replace with your API/context)
+        const stored = localStorage.getItem('user');
+        const userObj = stored ? JSON.parse(stored) : { name: '', email: '' };
+        setUser(userObj);
     }, []);
 
-    if (!user) return <p>Loading profile…</p>;
-
     return (
-        <div className="profile-page">
-            <h1>My Profile</h1>
-            <div className="profile-card">
-                <p><strong>Name:</strong> {user.name}</p>
-                <p><strong>Email:</strong> {user.email}</p>
+        <div className="profile-container">
+            <h2 className="profile-header">Your Profile</h2>
+
+            <div className="profile-field">
+                <span className="field-label">Name:</span>
+                <span className="field-value">{user.name}</span>
             </div>
+
+            <div className="profile-field">
+                <span className="field-label">Email:</span>
+                <span className="field-value">{user.email}</span>
+            </div>
+
+            {/* Add more fields as needed */}
+
+            <button className="edit-button" onClick={() => {/* handle edit action */ }}>
+                Edit Profile
+            </button>
         </div>
     );
-}
+};
+
+export default Profile;

@@ -6,16 +6,17 @@ import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
 import Signup from './pages/Signup/Signup';
 import ModeSelection from './pages/ModeSelection/ModeSelection';
-// ← these three files must live in src/pages/Booking/Taxi.js, Auto.js, Walking.js
 import Taxi from './pages/Booking/Taxi/taxi';
 import Auto from './pages/Booking/Auto/auto';
 import Walking from './pages/Booking/Walking/walking';
+import BookingHistory from './pages/Bookinghistory/BookingHistory';
 
 import About from './pages/About/About';
 import Contact from './pages/Contact/Contact';
 import PrivacyPolicy from './pages/PrivacyPolicy/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService/TermsOfService';
 import NotFound from './pages/NotFound/NotFound';
+import Profile from './pages/Profile/Profile';
 
 const AppContent = () => {
     const location = useLocation();
@@ -38,17 +39,19 @@ const AppContent = () => {
                     <Route path="/home" element={<Home />} />
                     <Route path="/mode-selection" element={<ModeSelection />} />
 
-                    {/* mode-specific booking pages */}
+                    {/* mode-specific booking */}
                     <Route path="/booking/taxi" element={<Taxi />} />
                     <Route path="/booking/auto" element={<Auto />} />
                     <Route path="/booking/walking" element={<Walking />} />
+
+                    <Route path="/booking-history" element={<BookingHistory />} />
 
                     {/* static pages */}
                     <Route path="/about" element={<About />} />
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/privacy" element={<PrivacyPolicy />} />
                     <Route path="/terms" element={<TermsOfService />} />
-
+                    <Route path="/profile" element={<Profile />} />
                     {/* 404 catch-all */}
                     <Route path="*" element={<NotFound />} />
                 </Routes>
