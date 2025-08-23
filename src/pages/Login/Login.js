@@ -8,8 +8,8 @@ const Login = () => {
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
-        email: '',
-        password: '',
+        email: 'JennyDon44@example.com',
+        password: 'Hello@123',
     });
     const [fieldErrors, setFieldErrors] = useState({});
 

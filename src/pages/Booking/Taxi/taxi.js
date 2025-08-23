@@ -47,7 +47,7 @@ export default function BookTaxiSlot() {
             if (!token) return;
 
             try {
-                const res = await fetch('http://localhost:5000/current-booking', {
+                const res = await fetch('https://api-siondrop.onrender.com/current-booking', {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -78,7 +78,7 @@ export default function BookTaxiSlot() {
         try {
             const token = localStorage.getItem('user-token');
 
-            const res = await fetch('http://localhost:5000/book-taxi-now', {
+            const res = await fetch('https://api-siondrop.onrender.com/book-taxi-now', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -111,7 +111,7 @@ export default function BookTaxiSlot() {
         const token = localStorage.getItem('user-token');
 
         try {
-            const res = await fetch('http://localhost:5000/cancel-booking', {
+            const res = await fetch('https://api-siondrop.onrender.com/cancel-booking', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

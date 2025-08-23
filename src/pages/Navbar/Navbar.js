@@ -46,7 +46,7 @@ const Navbar = () => {
     return (
         <nav className="navbar">
             <div className="navbar-brand">
-                <Link to="/" className="logo">SionDrop</Link>
+                <Link to="/home" className="logo">SionDrop</Link>
                 <button className="hamburger" onClick={toggleMenu} aria-label="Toggle menu">
                     <span className={`hamburger-line ${isMenuOpen ? 'open' : ''}`}></span>
                 </button>
@@ -54,7 +54,7 @@ const Navbar = () => {
 
             <div className={`nav-links ${isMenuOpen ? 'open' : ''}`}>
                 <Link
-                    to="/"
+                    to="/home"
                     className={location.pathname === '/' ? 'active' : ''}
                     onClick={() => setIsMenuOpen(false)}
                 >Home</Link>

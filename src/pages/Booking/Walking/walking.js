@@ -55,7 +55,7 @@ export default function BookWalkingSlot() {
 
             try {
                 const res = await fetch(
-                    'http://localhost:5000/current-booking',
+                    'https://api-siondrop.onrender.com/current-booking',
                     { headers: { 'Authorization': `Bearer ${token}` } }
                 );
                 if (!res.ok) return;
@@ -85,7 +85,7 @@ export default function BookWalkingSlot() {
         if (!token) { alert('Please log in.'); return; }
 
         const res = await fetch(
-            'http://localhost:5000/book-walking-now',
+            'https://api-siondrop.onrender.com/book-walking-now',
             {
                 method: 'POST',
                 headers: {
@@ -117,7 +117,7 @@ export default function BookWalkingSlot() {
         const token = localStorage.getItem('user-token');
 
         const res = await fetch(
-            'http://localhost:5000/cancel-booking',
+            'https://api-siondrop.onrender.com/cancel-booking',
             {
                 method: 'POST',
                 headers: {
