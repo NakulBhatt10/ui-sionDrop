@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import './walking.css';
 
-// ─── helpers ────────────────────────────────────────────────────────
 function getSlotTime(index) {
     const t = new Date();
     t.setSeconds(0, 0);
@@ -42,12 +41,10 @@ function buildInitialSlots() {
     });
 }
 
-// ─── component ───────────────────────────────────────────────────────
 export default function BookWalkingSlot() {
     const [slots, setSlots] = useState(buildInitialSlots);
     const [currentBooking, setCurrentBooking] = useState(null);
 
-    // fetch existing booking on load
     useEffect(() => {
         async function fetchCurrent() {
             const token = localStorage.getItem('user-token');
@@ -78,7 +75,6 @@ export default function BookWalkingSlot() {
         fetchCurrent();
     }, []);
 
-    // book one walker
     async function handleBook(idx) {
         const slot = slots[idx];
         const token = localStorage.getItem('user-token');
@@ -111,7 +107,6 @@ export default function BookWalkingSlot() {
         );
     }
 
-    // cancel that walk
     async function handleCancel() {
         if (!currentBooking) return;
         const token = localStorage.getItem('user-token');
@@ -140,8 +135,6 @@ export default function BookWalkingSlot() {
             )
         );
     }
-
-    // ─── render ────────────────────────────────────────────────────────
     return (
         <div className="walking-slot-page">
             {currentBooking && (

@@ -7,7 +7,6 @@
     --yellow-dark: #E5BC00;
 }
 
-/* ─── STICKY-FOOTER LAYOUT ────────────────────────────── */
 html,
 body,
 #root {
@@ -24,7 +23,7 @@ body,
     flex: 1 0 auto;
 }
 
-/* ─── FOOTER ───────────────────────────────────────────── */
+
 .footer {
     position: relative;
     background: linear-gradient(135deg, var(--primary), var(--yellow-dark));
@@ -180,7 +179,7 @@ body,
     box-shadow: 0 8px 24px rgba(255, 209, 0, 0.5);
 }
 
-/* heartbeat emoji */
+
 .heart {
     color: #ff4d4d;
     display: inline-block;
@@ -197,6 +196,50 @@ body,
     50% {
         transform: scale(1.15);
     }
+}
+
+.about-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 1.5rem 2rem;
+    background: var(--gray);
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    text-align: left;
+}
+
+.about-photo {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid var(--yellow-dark);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    flex-shrink: 0;
+}
+
+.about-text {
+    max-width: 600px;
+    color: var(--secondary);
+}
+
+.about-text h2 {
+    font-size: 1.6rem;
+    margin-bottom: 0.6rem;
+    color: var(--secondary);
+    font-weight: 700;
+    text-shadow: 0 2px 6px rgba(255, 255, 255, 0.3);
+}
+
+.about-text p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 0.6rem;
+    opacity: 0.9;
 }
 
 @media (max-width: 600px) {
@@ -225,6 +268,21 @@ body,
 
     .footer-connect-text {
         font-size: 1.1rem;
+    }
+
+    .about-section {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem;
+    }
+
+    .about-text {
+        text-align: center;
+    }
+
+    .about-photo {
+        width: 100px;
+        height: 100px;
     }
 }
 

@@ -1,5 +1,5 @@
 :root {
-    /* Glassmorphism variables */
+
     --glass-bg: rgba(255, 255, 255, 0.15);
     --glass-border: rgba(255, 255, 255, 0.3);
     --glass-shadow: rgba(0, 0, 0, 0.1);
@@ -7,7 +7,7 @@
     --font-primary: 'Segoe UI', Roboto, sans-serif;
 }
 
-/* ---------- wrapper & background ---------- */
+
 .auto-slot-page {
     min-height: 100vh;
     padding: 3rem 1rem;
@@ -17,7 +17,6 @@
     text-align: center;
 }
 
-/* ---------- current booking card ---------- */
 .auto-slot-page .current-booking {
     margin: 0 auto 2rem;
     padding: 1.5rem;
@@ -56,21 +55,21 @@
     background: rgba(231, 76, 60, 0.4);
 }
 
-/* ---------- page heading ---------- */
+
 .auto-slot-page>h1 {
     font-size: 2.25rem;
     margin-bottom: 2rem;
     color: #222;
 }
 
-/* ---------- slot grid ---------- */
+
 .auto-slot-page .slot-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: 1.5rem;
 }
 
-/* ---------- individual slot tile ---------- */
+
 .auto-slot-page .slot-tile {
     display: flex;
     flex-direction: column;
@@ -90,7 +89,6 @@
     box-shadow: 0 12px 48px var(--glass-shadow);
 }
 
-/* ---------- slot time label ---------- */
 .auto-slot-page .slot-time {
     font-size: 1.3rem;
     font-weight: 600;
@@ -99,7 +97,6 @@
     margin-bottom: 1rem;
 }
 
-/* ---------- book button ---------- */
 .auto-slot-page .slot-btn {
     padding: 0.5rem 1.4rem;
     margin-bottom: 1rem;
@@ -123,7 +120,6 @@
     cursor: not-allowed;
 }
 
-/* ---------- rider initials ---------- */
 .auto-slot-page .slot-users {
     display: flex;
     gap: 0.6rem;

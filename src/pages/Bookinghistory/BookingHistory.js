@@ -6,7 +6,7 @@ const BookingHistory = () => {
     const [past, setPast] = useState([]);
 
     useEffect(() => {
-        // grab the logged-in user’s email & token however you have it stored
+
         const email = 'nakulbhatt462@gmail.com';
         const token = localStorage.getItem('user-token');
 
@@ -28,7 +28,7 @@ const BookingHistory = () => {
                 return res.json();
             })
             .then(({ history }) => {
-                // convert date strings into Date objects
+
                 const bookings = history.map(b => ({
                     dateTime: new Date(b.dateTime),
                     rideType: b.rideType,
@@ -36,11 +36,11 @@ const BookingHistory = () => {
                 }));
 
                 const now = new Date();
-                // next upcoming (>= now)
+
                 const upcoming = bookings.find(b => b.dateTime >= now);
                 setCurrent(upcoming || null);
 
-                // past = everything before now, newest first
+
                 const pastBookings = bookings
                     .filter(b => b.dateTime < now)
                     .sort((a, b) => b.dateTime - a.dateTime);

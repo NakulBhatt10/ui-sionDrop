@@ -16,6 +16,45 @@
     z-index: 1000;
 }
 
+.hamburger {
+    background: none;
+    border: 0;
+    padding: .5rem;
+    cursor: pointer;
+    line-height: 0;
+
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+#site-nav {
+    display: grid;
+    gap: .75rem;
+}
+
+@media (min-width: 900px) {
+    .hamburger {
+        display: none;
+    }
+
+
+    #site-nav {
+        display: flex !important;
+        gap: 1rem;
+    }
+}
+
+
 .navbar-brand .logo {
     color: var(--primary);
     font-size: 1.6rem;
@@ -153,13 +192,11 @@
 }
 
 
-/* container for positioning */
 .navbar-profile {
     position: relative;
     margin-left: 1rem;
 }
 
-/* the circular avatar button */
 .avatar-btn {
     width: 40px;
     height: 40px;
@@ -173,9 +210,10 @@
     cursor: pointer;
 }
 
-/* dropdown menu */
+
 .dropdown-menu {
     position: absolute;
+    align-items: center;
     right: 0;
     top: 48px;
     background: #222;

@@ -8,10 +8,41 @@
     <meta name="description" content="SionDrop - Your delivery solution" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
     <title>SionDrop</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+
+    <header>
+      <button
+        class="hamburger"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+        aria-controls="site-nav"
+      >
+        <svg
+          width="28"
+          height="28"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M3 6h18M3 12h18M3 18h18" />
+        </svg>
+        <span class="sr-only">Menu</span>
+      </button>
+
+      <nav id="site-nav" hidden>
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+      </nav>
+    </header>
   </body>
 </html>

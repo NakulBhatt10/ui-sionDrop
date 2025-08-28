@@ -1,7 +1,7 @@
-// src/components/Navbar.js
 import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './navbar.css';
+import defaultAvatar from "../../assets/Screenshot 2025-08-29 010538.png";
 
 const Navbar = () => {
     const location = useLocation();
@@ -10,12 +10,12 @@ const Navbar = () => {
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const profileRef = useRef(null);
 
-    // ← Grab your user JSON however you persist it on login:
-    const stored = localStorage.getItem('user');          // e.g. {"name":"Alice Wonderland", ...}
+    const stored = localStorage.getItem('user');
     const userObj = stored ? JSON.parse(stored) : null;
     const userName = userObj?.name || userObj?.username || '';
+    const userAvatar = userObj?.avatar || null;
 
-    // derive initials in uppercase
+
     const userInitials = userName
         .split(' ')
         .map(n => n[0] || '')
@@ -26,7 +26,6 @@ const Navbar = () => {
     const toggleMenu = () => setIsMenuOpen(open => !open);
     const toggleProfile = () => setIsProfileOpen(open => !open);
 
-    // close dropdown if clicking outside
     useEffect(() => {
         const onClickOutside = e => {
             if (profileRef.current && !profileRef.current.contains(e.target)) {
@@ -38,7 +37,6 @@ const Navbar = () => {
     }, []);
 
     const handleLogout = () => {
-        // ← clear your auth tokens here
         localStorage.removeItem('user');
         navigate('/login');
     };
@@ -65,14 +63,21 @@ const Navbar = () => {
                     onClick={() => setIsMenuOpen(false)}
                 >Modes</Link>
 
-                {/* ↓ Profile avatar + dropdown */}
                 <div className="navbar-profile" ref={profileRef}>
                     <button
                         className="avatar-btn"
                         onClick={toggleProfile}
                         aria-label="Toggle profile menu"
                     >
-                        <span>{userInitials}</span>
+                        {userAvatar ? (
+                            <img
+                                src={userAvatar || defaultAvatar}
+                                alt="Profile"
+                                className="profile-photo"
+                            />
+                        ) : (
+                            <span>{userInitials}</span>
+                        )}
                     </button>
 
                     {isProfileOpen && (

@@ -1,5 +1,4 @@
 :root {
-    /* Glassmorphism variables */
     --glass-bg: rgba(255, 255, 255, 0.15);
     --glass-border: rgba(255, 255, 255, 0.3);
     --glass-shadow: rgba(0, 0, 0, 0.1);
@@ -7,7 +6,7 @@
     --font-primary: 'Segoe UI', Roboto, sans-serif;
 }
 
-/* ---------- page background & wrapper ---------- */
+
 .taxi-slot-page {
     min-height: 100vh;
     padding: 3rem 1rem;
@@ -17,7 +16,6 @@
     text-align: center;
 }
 
-/* ---------- current-booking card ---------- */
 .current-booking {
     margin: 0 auto 2rem;
     padding: 1.5rem;
@@ -55,21 +53,19 @@
     background: rgba(231, 76, 60, 0.4);
 }
 
-/* ---------- heading ---------- */
 .taxi-slot-page h1 {
     font-size: 2.25rem;
     margin-bottom: 2rem;
     color: #222;
 }
 
-/* ---------- grid of slots ---------- */
 .slot-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: 1.5rem;
 }
 
-/* ---------- individual slot tile ---------- */
+
 .slot-tile {
     display: flex;
     flex-direction: column;
@@ -97,7 +93,7 @@
     margin-bottom: 1rem;
 }
 
-/* ---------- booking button ---------- */
+
 .slot-btn {
     padding: 0.5rem 1.4rem;
     margin-bottom: 1rem;
@@ -121,7 +117,6 @@
     cursor: not-allowed;
 }
 
-/* ---------- rider initials ---------- */
 .slot-users {
     display: flex;
     gap: 0.6rem;

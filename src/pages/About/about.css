@@ -11,11 +11,9 @@
 html,
 body {
     margin: 0;
-    /* removes the built-in 8 px gap */
     padding: 0;
 }
 
-/* Page Container */
 .about-container {
     max-width: 900px;
     margin: 0 auto;
@@ -26,7 +24,6 @@ body {
     line-height: 1.7;
 }
 
-/* Headings */
 .about-container h1 {
     font-size: 2.8rem;
     color: var(--secondary);
@@ -41,14 +38,12 @@ body {
     margin-bottom: 1rem;
 }
 
-/* Paragraphs */
 .about-container p {
     font-size: 1.1rem;
     color: var(--text-light);
     margin-bottom: 1.5rem;
 }
 
-/* Unordered List */
 .about-container ul {
     list-style-type: disc;
     padding-left: 1.5rem;
@@ -61,7 +56,6 @@ body {
     margin-bottom: 0.5rem;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .about-container {
         padding: 2.5rem 1.5rem;

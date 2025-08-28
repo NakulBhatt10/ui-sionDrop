@@ -42,10 +42,10 @@ const AppContent = () => {
 
                     <Route path="/booking-history" element={<BookingHistory />} />
 
-                    {/* static pages */}
+
                     <Route path="/about" element={<About />} />
                     <Route path="/terms" element={<TermsOfService />} />
-                    {/* 404 catch-all */}
+
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </main>
