@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './navbar.css';
-import defaultAvatar from "../../assets/Screenshot 2025-08-29 010538.png";
+import profileUserImage from "../../assets/profile-user.png";
 
 const Navbar = () => {
     const location = useLocation();
@@ -12,16 +12,9 @@ const Navbar = () => {
 
     const stored = localStorage.getItem('user');
     const userObj = stored ? JSON.parse(stored) : null;
-    const userName = userObj?.name || userObj?.username || '';
     const userAvatar = userObj?.avatar || null;
 
 
-    const userInitials = userName
-        .split(' ')
-        .map(n => n[0] || '')
-        .join('')
-        .slice(0, 2)
-        .toUpperCase();
 
     const toggleMenu = () => setIsMenuOpen(open => !open);
     const toggleProfile = () => setIsProfileOpen(open => !open);
@@ -65,18 +58,22 @@ const Navbar = () => {
 
                 <div className="navbar-profile" ref={profileRef}>
                     <button
-                        className="avatar-btn"
+                        className="avatar-photo-btn"
                         onClick={toggleProfile}
                         aria-label="Toggle profile menu"
                     >
                         {userAvatar ? (
                             <img
-                                src={userAvatar || defaultAvatar}
+                                src={userAvatar || profileUserImage}
                                 alt="Profile"
                                 className="profile-photo"
                             />
                         ) : (
-                            <span>{userInitials}</span>
+                            <img
+                                src={profileUserImage}
+                                alt="Profile"
+                                className="profile-photo"
+                            />
                         )}
                     </button>
 
