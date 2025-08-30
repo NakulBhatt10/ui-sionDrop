@@ -16,6 +16,29 @@
     z-index: 1000;
 }
 
+/* Mobile layout: hamburger (left), logo (center), profile (right) */
+@media (max-width: 768px) {
+    .navbar {
+        display: grid;
+        grid-template-columns: 1fr 2fr 1fr;
+        align-items: center;
+        padding: 1rem;
+    }
+    
+    .hamburger {
+        justify-self: start;
+    }
+    
+    .navbar-brand {
+        justify-self: center;
+    }
+    
+    .navbar-profile {
+        justify-self: end;
+        margin-left: 0;
+    }
+}
+
 .hamburger {
     background: none;
     border: 0;
@@ -160,10 +183,14 @@
 
 @media (max-width: 768px) {
     .hamburger {
-        display: block;
+        display: block !important;
     }
 
     .nav-links {
+        display: none;
+    }
+
+    #site-nav {
         position: absolute;
         top: 100%;
         left: 0;
@@ -177,18 +204,31 @@
         visibility: hidden;
         transform: translateY(-10%);
         transition: all 0.3s ease;
+        border-top: 1px solid var(--primary);
     }
 
-    .nav-links.open {
+    #site-nav.open {
         opacity: 1;
         visibility: visible;
         transform: translateY(0);
+        display: flex !important;
     }
 
-    .nav-links a,
-    .nav-links button {
+    #site-nav a {
         width: 100%;
         text-align: center;
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 500;
+        padding: 0.75rem 1rem;
+        border-radius: 6px;
+        transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    #site-nav a:hover,
+    #site-nav a.active {
+        background-color: var(--primary);
+        color: var(--secondary);
     }
 }
 
@@ -226,8 +266,8 @@
 }
 
 .profile-photo {
-    width: 200px;
-    height: 40px;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     border-radius: 50%;
     opacity: 0.9;
