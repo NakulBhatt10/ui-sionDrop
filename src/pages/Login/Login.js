@@ -13,7 +13,7 @@ const Login = () => {
     });
     const [fieldErrors, setFieldErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [_, setCountdown] = useState(0);
+    const [countdown, setCountdown] = useState(0);
     const [helperMessage, setHelperMessage] = useState('');
     const countdownIntervalRef = useRef(null);
     const apiDelayTimeoutRef = useRef(null);
@@ -47,6 +47,7 @@ const Login = () => {
 
         setIsSubmitting(true);
         setCountdown(15);
+        console.log('📌 | Login.js |', countdown);
         setHelperMessage('Preparing secure login… 15s');
 
         // Start visual countdown (mirage)

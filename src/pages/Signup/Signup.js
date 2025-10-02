@@ -15,7 +15,7 @@ const Signup = () => {
     });
     const [fieldErrors, setFieldErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [_, setCountdown] = useState(0);
+    const [countdown, setCountdown] = useState(0);
     const [helperMessage, setHelperMessage] = useState('');
     const countdownIntervalRef = useRef(null);
     const apiDelayTimeoutRef = useRef(null);
@@ -55,6 +55,7 @@ const Signup = () => {
 
         setIsSubmitting(true);
         setCountdown(15);
+        console.log('📌 | Signup.js |', countdown);
         setHelperMessage('Preparing your account… 15s');
 
         // Start visual countdown (mirage)
