@@ -13,6 +13,7 @@ import BookingHistory from './pages/Bookinghistory/BookingHistory';
 import About from './pages/About/About';
 import TermsOfService from './pages/TermsOfService/TermsOfService';
 import NotFound from './pages/NotFound/NotFound';
+import Profile from './pages/Profile/Profile';
 
 const AppContent = () => {
     const location = useLocation();
@@ -45,6 +46,7 @@ const AppContent = () => {
 
                     <Route path="/about" element={<About />} />
                     <Route path="/terms" element={<TermsOfService />} />
+                    <Route path="/profile" element={<Profile />} />
 
                     <Route path="*" element={<NotFound />} />
                 </Routes>
