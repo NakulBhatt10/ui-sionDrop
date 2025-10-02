@@ -36,7 +36,7 @@ function buildInitialSlots() {
             taxiId: generateRideId(time),
             time,
             users: [],
-            maxCapacity: 5
+            maxCapacity: 4
         };
     });
 }

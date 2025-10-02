@@ -16,29 +16,6 @@
     z-index: 1000;
 }
 
-/* Mobile layout: hamburger (left), logo (center), profile (right) */
-@media (max-width: 768px) {
-    .navbar {
-        display: grid;
-        grid-template-columns: 1fr 2fr 1fr;
-        align-items: center;
-        padding: 1rem;
-    }
-    
-    .hamburger {
-        justify-self: start;
-    }
-    
-    .navbar-brand {
-        justify-self: center;
-    }
-    
-    .navbar-profile {
-        justify-self: end;
-        margin-left: 0;
-    }
-}
-
 .hamburger {
     background: none;
     border: 0;
@@ -182,15 +159,24 @@
 }
 
 @media (max-width: 768px) {
+    .navbar {
+        display: grid;
+        grid-template-columns: 1fr 2fr 1fr;
+        align-items: center;
+        padding: 1rem;
+    }
+
     .hamburger {
         display: block !important;
+        justify-self: start;
+        margin-left: 0;
+    }
+
+    .navbar-brand {
+        justify-self: center;
     }
 
     .nav-links {
-        display: none;
-    }
-
-    #site-nav {
         position: absolute;
         top: 100%;
         left: 0;
@@ -207,28 +193,22 @@
         border-top: 1px solid var(--primary);
     }
 
-    #site-nav.open {
+    .nav-links.open {
         opacity: 1;
         visibility: visible;
         transform: translateY(0);
-        display: flex !important;
     }
 
-    #site-nav a {
+    .nav-links a,
+    .nav-links button {
         width: 100%;
         text-align: center;
-        color: var(--primary);
-        text-decoration: none;
-        font-weight: 500;
-        padding: 0.75rem 1rem;
-        border-radius: 6px;
-        transition: background 0.3s ease, color 0.3s ease;
     }
 
-    #site-nav a:hover,
-    #site-nav a.active {
-        background-color: var(--primary);
-        color: var(--secondary);
+    .navbar-profile {
+        justify-self: end;
+        margin-left: 0;
+        position: static;
     }
 }
 
@@ -252,8 +232,8 @@
 }
 
 .avatar-photo-btn {
-    width: 45px;
-    height: 45px;
+    width: 60px;
+    height: 40px;
     border-radius: 50%;
     background: var(--primary) !important;
     border: 2px solid var(--primary);
@@ -299,5 +279,20 @@
 }
 
 .dropdown-menu a:hover {
+    background: #333;
+}
+
+.logout-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    font-size: inherit;
+}
+
+.logout-btn:hover {
     background: #333;
 }

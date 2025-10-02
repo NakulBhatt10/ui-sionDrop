@@ -38,10 +38,11 @@ const Navbar = () => {
         <nav className="navbar">
             <div className="navbar-brand">
                 <Link to="/home" className="logo">SionDrop</Link>
-                <button className="hamburger" onClick={toggleMenu} aria-label="Toggle menu">
-                    <span className={`hamburger-line ${isMenuOpen ? 'open' : ''}`}></span>
-                </button>
             </div>
+
+            <button className="hamburger" onClick={toggleMenu} aria-label="Toggle menu">
+                <span className={`hamburger-line ${isMenuOpen ? 'open' : ''}`}></span>
+            </button>
 
             <div className={`nav-links ${isMenuOpen ? 'open' : ''}`}>
                 <Link
