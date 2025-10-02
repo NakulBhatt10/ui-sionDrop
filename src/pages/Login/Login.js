@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -12,6 +12,11 @@ const Login = () => {
         password: 'Hello@123',
     });
     const [fieldErrors, setFieldErrors] = useState({});
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [countdown, setCountdown] = useState(0);
+    const [helperMessage, setHelperMessage] = useState('');
+    const countdownIntervalRef = useRef(null);
+    const apiDelayTimeoutRef = useRef(null);
 
     const handleChange = e => {
         setFormData(f => ({ ...f, [e.target.name]: e.target.value }));
@@ -38,35 +43,67 @@ const Login = () => {
 
     const handleSubmit = async e => {
         e.preventDefault();
-        if (!validateForm()) return;
+        if (!validateForm() || isSubmitting) return;
 
-        try {
-            const res = await fetch('https://api-siondrop.onrender.com/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    email: formData.email,
-                    password: formData.password,
-                }),
+        setIsSubmitting(true);
+        setCountdown(15);
+        setHelperMessage('Preparing secure login… 15s');
+
+        // Start visual countdown (mirage)
+        countdownIntervalRef.current = setInterval(() => {
+            setCountdown(prev => {
+                const next = prev - 1;
+                if (next > 0) {
+                    setHelperMessage(`Preparing secure login… ${next}s`);
+                }
+                if (next <= 0) {
+                    clearInterval(countdownIntervalRef.current);
+                    setHelperMessage('Loading…');
+                }
+                return Math.max(next, 0);
             });
-            const data = await res.json();
+        }, 1000);
 
-            if (!res.ok) {
-                throw new Error(data.message || 'Login failed');
-            }
-
+        // Delay actual API call until countdown completes
+        apiDelayTimeoutRef.current = setTimeout(async () => {
             try {
-                localStorage.setItem('user-token', data.token);
-            } catch (storageErr) {
-                console.error('Could not save auth token', storageErr);
-            }
+                const res = await fetch('https://api-siondrop.onrender.com/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: formData.email,
+                        password: formData.password,
+                    }),
+                });
+                const data = await res.json();
 
-            toast.success('Logged in successfully!');
-            setTimeout(() => navigate('/home'), 800);
-        } catch (err) {
-            toast.error(err.message);
-        }
+                if (!res.ok) {
+                    throw new Error(data.message || 'Login failed');
+                }
+
+                try {
+                    localStorage.setItem('user-token', data.token);
+                } catch (storageErr) {
+                    console.error('Could not save auth token', storageErr);
+                }
+
+                toast.success('Logged in successfully!');
+                setTimeout(() => navigate('/home'), 800);
+            } catch (err) {
+                toast.error(err.message);
+                setHelperMessage('');
+            } finally {
+                setIsSubmitting(false);
+            }
+        }, 15000);
     };
+
+    useEffect(() => {
+        return () => {
+            if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
+            if (apiDelayTimeoutRef.current) clearTimeout(apiDelayTimeoutRef.current);
+        };
+    }, []);
 
     return (
         <div className="auth-container">
@@ -108,9 +145,12 @@ const Login = () => {
                         )}
                     </div>
 
-                    <button type="submit" className="btn btn-primary">
+                    <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
                         Login
                     </button>
+                    {isSubmitting && (
+                        <div className="helper-message" aria-live="polite">{helperMessage}</div>
+                    )}
                 </form>
 
                 <p className="switch-auth">

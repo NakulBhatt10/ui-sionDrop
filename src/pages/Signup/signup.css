@@ -88,6 +88,13 @@ input.error {
     background: var(--yellow-dark);
 }
 
+.helper-message {
+    margin-top: .6rem;
+    font-size: .88rem;
+    color: #1f9d55;
+    /* green */
+}
+
 .auth-switch {
     margin-top: 1.8rem;
     font-size: .9rem;

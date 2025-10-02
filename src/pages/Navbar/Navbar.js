@@ -1,33 +1,13 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './navbar.css';
-import profileUserImage from "../../assets/profile-user.png";
 
 const Navbar = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isProfileOpen, setIsProfileOpen] = useState(false);
-    const profileRef = useRef(null);
-
-    const stored = localStorage.getItem('user');
-    const userObj = stored ? JSON.parse(stored) : null;
-    const userAvatar = userObj?.avatar || null;
-
-
 
     const toggleMenu = () => setIsMenuOpen(open => !open);
-    const toggleProfile = () => setIsProfileOpen(open => !open);
-
-    useEffect(() => {
-        const onClickOutside = e => {
-            if (profileRef.current && !profileRef.current.contains(e.target)) {
-                setIsProfileOpen(false);
-            }
-        };
-        document.addEventListener('mousedown', onClickOutside);
-        return () => document.removeEventListener('mousedown', onClickOutside);
-    }, []);
 
     const handleLogout = () => {
         localStorage.removeItem('user');
@@ -57,47 +37,28 @@ const Navbar = () => {
                     onClick={() => setIsMenuOpen(false)}
                 >Modes</Link>
 
-                <div className="navbar-profile" ref={profileRef}>
-                    <button
-                        className="avatar-photo-btn"
-                        onClick={toggleProfile}
-                        aria-label="Toggle profile menu"
-                    >
-                        {userAvatar ? (
-                            <img
-                                src={userAvatar || profileUserImage}
-                                alt="Profile"
-                                className="profile-photo"
-                            />
-                        ) : (
-                            <img
-                                src={profileUserImage}
-                                alt="Profile"
-                                className="profile-photo"
-                            />
-                        )}
-                    </button>
+                <Link
+                    to="/profile"
+                    className={`nav-link-with-icon ${location.pathname === '/profile' ? 'active' : ''}`}
+                    onClick={() => setIsMenuOpen(false)}
+                >
+                    Profile</Link>
 
-                    {isProfileOpen && (
-                        <ul className="dropdown-menu">
-                            <li>
-                                <Link to="/profile" onClick={() => setIsProfileOpen(false)}>
-                                    Profile
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/booking-history" onClick={() => setIsProfileOpen(false)}>
-                                    Booking History
-                                </Link>
-                            </li>
-                            <li>
-                                <button onClick={handleLogout} className="logout-btn">
-                                    Logout
-                                </button>
-                            </li>
-                        </ul>
-                    )}
-                </div>
+                <Link
+                    to="/booking-history"
+                    className={location.pathname === '/booking-history' ? 'active' : ''}
+                    onClick={() => setIsMenuOpen(false)}
+                >Booking History</Link>
+
+                <button
+                    onClick={() => {
+                        handleLogout();
+                        setIsMenuOpen(false);
+                    }}
+                    className="nav-logout-btn"
+                >
+                    Logout
+                </button>
             </div>
         </nav>
     );
