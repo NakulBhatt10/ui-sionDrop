@@ -2,19 +2,21 @@
     max-width: 800px;
     margin: 2rem auto;
     padding: 1.5rem;
-    background: #fff;
+    background: var(--white);
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-top: 5px solid var(--primary);
 }
 
 .history-container h2 {
     margin-top: 1.5rem;
-    color: #333;
+    color: var(--secondary);
 }
 
 .current-booking {
     padding: 1rem;
-    background: #f0f8ff;
+    background: rgba(255, 209, 0, 0.12);
+    border-left: 4px solid var(--primary);
     border-radius: 4px;
     margin-bottom: 2rem;
 }
@@ -30,15 +32,20 @@
 
 .history-table th,
 .history-table td {
-    border: 1px solid #ddd;
+    border: 1px solid #eee;
     padding: 0.5rem;
 }
 
 .history-table th {
-    background: #f5f5f5;
+    background: var(--primary);
+    color: var(--secondary);
     text-align: left;
 }
 
 .history-table tbody tr:nth-child(even) {
-    background: #fafafa;
+    background: #fff9d1;
+}
+
+.history-error {
+    color: var(--error);
 }
