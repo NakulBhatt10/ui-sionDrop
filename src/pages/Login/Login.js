@@ -13,7 +13,7 @@ const Login = () => {
     });
     const [fieldErrors, setFieldErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [setCountdown] = useState(0);
+    const [_, setCountdown] = useState(0);
     const [helperMessage, setHelperMessage] = useState('');
     const countdownIntervalRef = useRef(null);
     const apiDelayTimeoutRef = useRef(null);
